@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>جدول توزيع درجات الفترات – المهارات الرقمية</title>
+  <title>جدول تحليل درجات الطلاب</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -320,8 +320,12 @@
     .clickable-row:hover { background: #f0fdf4; }
 
     /* ─── FOOTER & TOAST ─── */
-    .report-footer { margin-top: 28px; padding: 14px 0 0; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 500; }
-    .report-footer .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--line); }
+    .report-footer { margin-top: 28px; padding: 14px 0 0; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 500; flex-wrap: wrap; text-align: center; }
+    .report-footer .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--line); flex: 0 0 auto; }
+    .report-footer strong { color: var(--emerald); font-family: var(--font-display); font-weight: 900; }
+    .report-footer a { color: var(--blue); text-decoration: none; font-family: var(--font-display); font-weight: 800; direction: ltr; unicode-bidi: embed; }
+    .report-footer a:hover { text-decoration: underline; }
+    .brand-credit { display: inline-flex; align-items: center; gap: 6px; }
     .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(16px); background: var(--ink); color: #fff; padding: 12px 22px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); font-family: var(--font-display); font-weight: 700; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; z-index: 999; }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
@@ -388,17 +392,17 @@
         <div class="header-inner">
           <div class="header-top">
             <div class="title-block">
-              <h1 contenteditable="true">جدول توزيع درجات الفترات – المهارات الرقمية</h1>
-              <div class="subtitle" contenteditable="true">نموذج رسمي لتجهيز درجات الصف الرابع الابتدائي</div>
+              <h1 contenteditable="true">جدول تحليل درجات الطلاب</h1>
+              <div class="subtitle" contenteditable="true">ارفع ملف Excel أو PDF ليتم قراءة بيانات المدرسة والمادة والدرجات تلقائيًا</div>
             </div>
             <div class="header-badge">💻</div>
           </div>
           <div class="meta-grid">
-            <div class="meta-item"><span class="meta-label">العام الدراسي</span><strong id="yearName" contenteditable="true">١٤٤٧هـ</strong></div>
-            <div class="meta-item"><span class="meta-label">الفصل الدراسي</span><strong id="termName" contenteditable="true">الثاني</strong></div>
-            <div class="meta-item"><span class="meta-label">المدرسة</span><strong id="schoolName" contenteditable="true">اسم المدرسة</strong></div>
-            <div class="meta-item"><span class="meta-label">المادة</span><strong><span class="subject-pill" id="subjectName" contenteditable="true">المهارات الرقمية</span></strong></div>
-            <div class="meta-item"><span class="meta-label">الصف</span><strong id="className" contenteditable="true">الرابع الابتدائي</strong></div>
+            <div class="meta-item"><span class="meta-label">العام الدراسي</span><strong id="yearName" contenteditable="true">—</strong></div>
+            <div class="meta-item"><span class="meta-label">الفصل الدراسي</span><strong id="termName" contenteditable="true">بانتظار الاستيراد</strong></div>
+            <div class="meta-item"><span class="meta-label">المدرسة</span><strong id="schoolName" contenteditable="true">بانتظار الاستيراد</strong></div>
+            <div class="meta-item"><span class="meta-label">المادة</span><strong><span class="subject-pill" id="subjectName" contenteditable="true">بانتظار الاستيراد</span></strong></div>
+            <div class="meta-item"><span class="meta-label">الصف</span><strong id="className" contenteditable="true">بانتظار الاستيراد</strong></div>
           </div>
         </div>
       </header>
@@ -406,26 +410,26 @@
       <section class="content">
 
         <div class="stats-row">
-          <div class="stat-card"><div class="stat-icon">🗓️</div><div><span class="stat-label" id="analysisCountLabel">نوع التحليل</span><span class="stat-value" id="analysisTypeValue">١</span></div></div>
-          <div class="stat-card"><div class="stat-icon">📝</div><div><span class="stat-label">متوسط المهام</span><span class="stat-value" id="topAvgTask">٤٠</span></div></div>
-          <div class="stat-card"><div class="stat-icon">✅</div><div><span class="stat-label">متوسط الاختبارات</span><span class="stat-value" id="topAvgTest">٦٠</span></div></div>
-          <div class="stat-card"><div class="stat-icon">🏁</div><div><span class="stat-label">متوسط المجموع</span><span class="stat-value" id="topAvgTotal">١٠٠</span></div></div>
+          <div class="stat-card"><div class="stat-icon">🗓️</div><div><span class="stat-label" id="analysisCountLabel">نوع التحليل</span><span class="stat-value" id="analysisTypeValue">—</span></div></div>
+          <div class="stat-card"><div class="stat-icon">📝</div><div><span class="stat-label">متوسط المهام</span><span class="stat-value" id="topAvgTask">—</span></div></div>
+          <div class="stat-card"><div class="stat-icon">✅</div><div><span class="stat-label">متوسط الاختبارات</span><span class="stat-value" id="topAvgTest">—</span></div></div>
+          <div class="stat-card"><div class="stat-icon">🏁</div><div><span class="stat-label">متوسط المجموع</span><span class="stat-value" id="topAvgTotal">—</span></div></div>
         </div>
 
         <div class="dashboard">
-          <div class="dash-card featured"><span class="dc-label">متوسط المهام</span><span class="dc-value" id="dashTaskAvg">٤٠</span><span class="dc-sub">من ٤٠</span></div>
-          <div class="dash-card"><span class="dc-label">متوسط الاختبارات</span><span class="dc-value" id="dashTestAvg">٦٠</span><span class="dc-sub">من ٦٠</span></div>
-          <div class="dash-card"><span class="dc-label">متوسط المجموع</span><span class="dc-value" id="dashTotalAvg">١٠٠</span><span class="dc-sub">من ١٠٠</span></div>
-          <div class="dash-card status"><span class="dc-label">قراءة الأداء</span><span class="dc-value" id="dashStatus">ممتاز</span><span class="dc-sub" id="dashNote">الدرجات مكتملة</span></div>
+          <div class="dash-card featured"><span class="dc-label">متوسط المهام</span><span class="dc-value" id="dashTaskAvg">—</span><span class="dc-sub">بانتظار البيانات</span></div>
+          <div class="dash-card"><span class="dc-label">متوسط الاختبارات</span><span class="dc-value" id="dashTestAvg">—</span><span class="dc-sub">بانتظار البيانات</span></div>
+          <div class="dash-card"><span class="dc-label">متوسط المجموع</span><span class="dc-value" id="dashTotalAvg">—</span><span class="dc-sub">بانتظار البيانات</span></div>
+          <div class="dash-card status"><span class="dc-label">قراءة الأداء</span><span class="dc-value" id="dashStatus">بانتظار الاستيراد</span><span class="dc-sub" id="dashNote">ارفع ملف Excel أو PDF</span></div>
         </div>
 
         <div class="analysis-box">
           <div class="section-title"><span class="stitle-dot"></span>تحليل الدرجات</div>
           <div class="analysis-grid">
-            <div class="analysis-item"><span class="ai-label">أعلى مجموع</span><span class="ai-value" id="analysisMax">١٠٠</span></div>
-            <div class="analysis-item"><span class="ai-label">أقل مجموع</span><span class="ai-value" id="analysisMin">١٠٠</span></div>
-            <div class="analysis-item"><span class="ai-label">نسبة الإنجاز</span><span class="ai-value" id="analysisPercent">١٠٠٪</span></div>
-            <div class="analysis-item wide"><span class="ai-label">التوصية</span><span class="ai-value" id="analysisRecommendation">المؤشرات مستقرة، ويُنصح بالمراجعة النهائية قبل الاعتماد.</span></div>
+            <div class="analysis-item"><span class="ai-label">أعلى مجموع</span><span class="ai-value" id="analysisMax">—</span></div>
+            <div class="analysis-item"><span class="ai-label">أقل مجموع</span><span class="ai-value" id="analysisMin">—</span></div>
+            <div class="analysis-item"><span class="ai-label">نسبة الإنجاز</span><span class="ai-value" id="analysisPercent">—</span></div>
+            <div class="analysis-item wide"><span class="ai-label">التوصية</span><span class="ai-value" id="analysisRecommendation">ارفع ملف Excel أو PDF ليتم إنشاء التحليل تلقائيًا حسب البيانات الموجودة في الملف.</span></div>
           </div>
         </div>
 
@@ -439,7 +443,7 @@
                 <circle id="donutFill2" cx="65" cy="65" r="36" fill="none" stroke="#fbbf24" stroke-width="9" stroke-linecap="round" stroke-dasharray="226.2 226.2" stroke-dashoffset="0" style="transition: stroke-dashoffset 1s"/>
               </svg>
               <div style="position:absolute; display:flex; flex-direction:column; align-items:center; justify-content:center; inset:0; pointer-events:none;">
-                <span class="ring-value" id="ringPct">١٠٠٪</span><span class="ring-sub">إنجاز كلي</span>
+                <span class="ring-value" id="ringPct">—</span><span class="ring-sub">إنجاز كلي</span>
               </div>
               <div class="ring-label">نسبة إنجاز الفترات</div>
             </div>
@@ -464,7 +468,7 @@
                   <circle cx="35" cy="35" r="28" fill="none" stroke="#e2e8f0" stroke-width="10"/>
                   <circle id="splitDonut" cx="35" cy="35" r="28" fill="none" stroke="#059669" stroke-width="10" stroke-linecap="round" stroke-dasharray="175.9 175.9" stroke-dashoffset="70.4" style="transition: stroke-dashoffset 0.9s"/>
                 </svg>
-                <div><div style="font-size:12px; color:var(--muted); font-weight:700;">نسبة المهام من الكلي</div><div id="splitPctText" style="font-family:var(--font-display); font-size:22px; font-weight:900; color:var(--emerald);">٤٠٪</div></div>
+                <div><div style="font-size:12px; color:var(--muted); font-weight:700;">نسبة المهام من الكلي</div><div id="splitPctText" style="font-family:var(--font-display); font-size:22px; font-weight:900; color:var(--emerald);">—</div></div>
               </div>
             </div>
             <div class="db-gauge-card">
@@ -480,8 +484,8 @@
                 <text x="65" y="18" font-size="9" fill="#d97706" font-family="Tajawal,sans-serif" font-weight="700">جيد</text>
                 <text x="122" y="100" font-size="9" fill="#059669" font-family="Tajawal,sans-serif" font-weight="700">ممتاز</text>
               </svg>
-              <div id="gaugeLabel" style="font-family:var(--font-display); font-size:20px; font-weight:900; color:var(--emerald); margin-top:-6px;">ممتاز</div>
-              <div id="gaugeScore" style="font-size:12px; color:var(--muted); font-weight:700;">المتوسط الكلي: ١٠٠ / ١٠٠</div>
+              <div id="gaugeLabel" style="font-family:var(--font-display); font-size:20px; font-weight:900; color:var(--emerald); margin-top:-6px;">بانتظار البيانات</div>
+              <div id="gaugeScore" style="font-size:12px; color:var(--muted); font-weight:700;">ارفع ملفًا لبدء التحليل</div>
             </div>
           </div>
         </div>
@@ -491,10 +495,7 @@
           <table id="gradesTable">
             <thead><tr><th>الفترة</th><th>المهام الأدائية</th><th>الاختبارات</th><th>المجموع</th></tr></thead>
             <tbody>
-              <tr data-row="period"><td class="period-cell" contenteditable="true">الفترة الأولى</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
-              <tr data-row="period"><td class="period-cell" contenteditable="true">الفترة الثانية</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
-              <tr data-row="period"><td class="period-cell" contenteditable="true">معدل الفترتين</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
-              <tr class="final-row" data-row="final"><td class="period-cell" contenteditable="true">مجموع الفصل الثاني</td><td class="task-cell">٤٠</td><td class="test-cell">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+              <tr><td class="period-cell" colspan="4">بانتظار استيراد ملف Excel أو PDF لعرض التحليل حسب بيانات الملف</td></tr>
             </tbody>
           </table>
         </div>
@@ -513,7 +514,9 @@
         </div>
 
         <div class="report-footer">
-          <span>جدول توزيع الدرجات</span><span class="dot"></span><span id="footerSubject">المهارات الرقمية</span>
+          <span>جدول توزيع الدرجات</span><span class="dot"></span><span id="footerSubject">بانتظار الاستيراد</span>
+          <span class="dot"></span><span class="brand-credit">إعداد: <strong contenteditable="true">الدكتور فواز</strong></span>
+          <span class="dot"></span><span class="brand-credit">تليجرام: <a id="telegramCreditLink" href="https://t.me/" target="_blank" rel="noopener" contenteditable="true">رابط التليجرام</a></span>
         </div>
 
       </section>
@@ -610,6 +613,34 @@
       if (el) el.textContent = value;
     }
 
+
+    function setBlankDashboard() {
+      ['dashTaskAvg','dashTestAvg','dashTotalAvg','topAvgTask','topAvgTest','topAvgTotal','analysisMax','analysisMin','analysisPercent'].forEach(id => setText(id, '—'));
+      setText('dashStatus', 'بانتظار الاستيراد');
+      setText('dashNote', 'ارفع ملف Excel أو PDF');
+      setText('analysisRecommendation', 'ارفع ملف Excel أو PDF ليتم إنشاء التحليل تلقائيًا حسب البيانات الموجودة في الملف.');
+      setText('analysisTypeValue', '—');
+      setText('analysisCountLabel', 'نوع التحليل');
+      setText('ringPct', '—');
+      setText('splitPctText', '—');
+      setText('gaugeLabel', 'بانتظار البيانات');
+      setText('gaugeScore', 'ارفع ملفًا لبدء التحليل');
+      document.querySelectorAll('.dash-card .dc-sub').forEach(el => el.textContent = 'بانتظار البيانات');
+      const splitTask = document.getElementById('splitTask');
+      const splitTest = document.getElementById('splitTest');
+      if (splitTask) { splitTask.style.flex = 1; splitTask.textContent = '—'; }
+      if (splitTest) { splitTest.style.flex = 1; splitTest.textContent = '—'; }
+      const donutFill = document.getElementById('donutFill');
+      const donutFill2 = document.getElementById('donutFill2');
+      const splitDonut = document.getElementById('splitDonut');
+      const gaugeNeedle = document.getElementById('gaugeNeedle');
+      if (donutFill) donutFill.style.strokeDashoffset = CIRCUM_52;
+      if (donutFill2) donutFill2.style.strokeDashoffset = CIRCUM_36;
+      if (splitDonut) splitDonut.style.strokeDashoffset = CIRCUM_28;
+      if (gaugeNeedle) gaugeNeedle.style.transform = 'rotate(-90deg)';
+      if (barChartInst) { barChartInst.destroy(); barChartInst = null; }
+    }
+
     const gradesTable = document.getElementById('gradesTable');
 
     function calculateRows() {
@@ -666,7 +697,7 @@
 
       let status = 'ممتاز',
           note = 'الدرجات مستقرة',
-          rec = 'المؤشرات مستقرة، ويُنصح بالمراجعة النهائية قبل الاعتماد.';
+          rec = 'ارفع ملف Excel أو PDF ليتم إنشاء التحليل تلقائيًا حسب البيانات الموجودة في الملف.';
       if (pct < 60) {
         status = 'بحاجة لمعالجة';
         note = 'يوجد انخفاض واضح';
@@ -1578,25 +1609,24 @@
     function resetDefaultGradeTable() {
       window.currentImportedModel = null;
       window.selectedStudentIndex = null;
-      window.currentMaxTask = DEFAULT_MAX.task;
-      window.currentMaxTest = DEFAULT_MAX.test;
-      window.currentMaxTotal = DEFAULT_MAX.total;
+      window.currentMaxTask = 0;
+      window.currentMaxTest = 0;
+      window.currentMaxTotal = 0;
       gradesTable.querySelector('tbody').innerHTML = `
-        <tr data-row="period"><td class="period-cell" contenteditable="true">الفترة الأولى</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
-        <tr data-row="period"><td class="period-cell" contenteditable="true">الفترة الثانية</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
-        <tr data-row="period"><td class="period-cell" contenteditable="true">معدل الفترتين</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
-        <tr class="final-row" data-row="final"><td class="period-cell" contenteditable="true">مجموع الفصل الثاني</td><td class="task-cell">٤٠</td><td class="test-cell">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+        <tr><td class="period-cell" colspan="4">بانتظار استيراد ملف Excel أو PDF لعرض التحليل حسب بيانات الملف</td></tr>
       `;
-      document.querySelector('.title-block h1').textContent = 'جدول توزيع درجات الفترات – المهارات الرقمية';
-      document.querySelector('.title-block .subtitle').textContent = 'نموذج رسمي لتجهيز درجات الصف الرابع الابتدائي';
-      setText('subjectName', 'المهارات الرقمية');
-      setText('footerSubject', 'المهارات الرقمية');
-      setText('schoolName', 'اسم المدرسة');
-      setText('className', 'الرابع الابتدائي');
-      setText('termName', 'الثاني');
-      setText('yearName', '١٤٤٧هـ');
-      setText('analysisTypeValue', '١');
-      calculateRows();
+      const headerCells = gradesTable.querySelectorAll('thead th');
+      if (headerCells[1]) headerCells[1].textContent = 'البند الأول';
+      if (headerCells[2]) headerCells[2].textContent = 'البند الثاني';
+      document.querySelector('.title-block h1').textContent = 'جدول تحليل درجات الطلاب';
+      document.querySelector('.title-block .subtitle').textContent = 'ارفع ملف Excel أو PDF ليتم قراءة بيانات المدرسة والمادة والدرجات تلقائيًا';
+      setText('subjectName', 'بانتظار الاستيراد');
+      setText('footerSubject', 'بانتظار الاستيراد');
+      setText('schoolName', 'بانتظار الاستيراد');
+      setText('className', 'بانتظار الاستيراد');
+      setText('termName', 'بانتظار الاستيراد');
+      setText('yearName', '—');
+      setBlankDashboard();
     }
 
     document.getElementById('analysisMode').addEventListener('change', () => {
@@ -1716,7 +1746,7 @@
       document.getElementById('gaugeScore').textContent = `المتوسط الكلي: ${formatGrade(avgTotal)} / ${formatGrade(maxTotal)}`;
     }
 
-    calculateRows();
+    resetDefaultGradeTable();
   </script>
 
 </body>
