@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>جدول توزيع درجات الفترات – المهارات الرقمية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --emerald: #065f46;
+      --emerald-mid: #059669;
+      --emerald-light: #34d399;
+      --emerald-glow: rgba(6, 95, 70, 0.12);
+      --gold: #b45309;
+      --gold-light: #fbbf24;
+      --gold-glow: rgba(180, 83, 9, 0.15);
+      --ink: #0f172a;
+      --ink-soft: #334155;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --line-soft: #f1f5f9;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --danger: #991b1b;
+      --blue: #1e40af;
+
+      --font-display: 'Tajawal', sans-serif;
+      --font-body: 'IBM Plex Sans Arabic', sans-serif;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(6,95,70,0.1), 0 2px 6px rgba(0,0,0,0.06);
+      --shadow-lg: 0 20px 60px rgba(6,95,70,0.14), 0 8px 24px rgba(0,0,0,0.08);
+      --shadow-card: 0 2px 12px rgba(6,95,70,0.08);
+
+      --radius-sm: 12px;
+      --radius-md: 18px;
+      --radius-lg: 28px;
+      --radius-xl: 36px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(6,95,70,0.06), transparent),
+        radial-gradient(ellipse 40% 40% at 90% 80%, rgba(180,83,9,0.04), transparent);
+    }
+
+    /* ─── TOOLBAR ─── */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px) saturate(180%);
+      background: rgba(248, 250, 252, 0.88);
+      border-bottom: 1px solid var(--line);
+      padding: 10px 24px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 20px;
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--emerald), #047857);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(6,95,70,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #1e40af, #1e3a8a);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(30,64,175,0.25);
+    }
+
+    .btn-ghost {
+      background: var(--white);
+      color: var(--ink-soft);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-ghost:hover {
+      background: var(--line-soft);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #dc2626, var(--danger));
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(153,27,27,0.25);
+    }
+
+    .file-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      background: linear-gradient(135deg, var(--emerald), #047857);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(6,95,70,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .file-label:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(6,95,70,0.35);
+    }
+
+    input[type="file"] { display: none; }
+
+    .select-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--emerald);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .analysis-select {
+      height: 40px;
+      min-width: 190px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--ink);
+      padding: 0 16px;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 14px;
+      outline: none;
+      box-shadow: var(--shadow-sm);
+      direction: rtl;
+      text-align: right;
+      cursor: pointer;
+    }
+
+    .analysis-select:focus {
+      border-color: var(--emerald-mid);
+      box-shadow: 0 0 0 3px rgba(5,150,105,0.12);
+    }
+
+    .num, .task-cell, .test-cell, .sum-cell, .stat-value, .dc-value, .ai-value,
+    .ring-value, .imported-table td, .imported-table th {
+      direction: rtl;
+      unicode-bidi: isolate;
+      text-align: center;
+    }
+
+    /* ─── SHELL ─── */
+    .page-shell {
+      width: min(1080px, calc(100% - 40px));
+      margin: 28px auto 40px;
+    }
+
+    /* ─── REPORT CARD ─── */
+    .report {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid rgba(6,95,70,0.08);
+      animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      background:
+        linear-gradient(145deg, #064e3b 0%, #065f46 40%, #047857 80%, #059669 100%);
+      padding: 36px 40px 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(251,191,36,0.08) 0%, transparent 40%);
+    }
+
+    /* Geometric decorations */
+    .header-deco, .header-deco-2, .header-deco-3 { pointer-events: none; position: absolute; }
+    .header-deco { top: -30px; inset-inline-start: -30px; width: 180px; height: 180px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.06); }
+    .header-deco-2 { bottom: -50px; inset-inline-end: 120px; width: 240px; height: 240px; border-radius: 50%; border: 1px solid rgba(251,191,36,0.1); }
+    .header-deco-3 { top: 20px; inset-inline-end: 30px; width: 90px; height: 90px; border-radius: var(--radius-md); background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); transform: rotate(12deg); }
+
+    .header-inner { position: relative; z-index: 2; }
+    .header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+    .title-block h1 { font-family: var(--font-display); font-size: clamp(22px, 3vw, 34px); font-weight: 900; color: #fff; letter-spacing: -0.5px; line-height: 1.3; margin-bottom: 8px; }
+    .title-block .subtitle { color: rgba(255,255,255,0.75); font-size: 15px; font-weight: 500; }
+    .header-badge { width: 80px; height: 80px; border-radius: var(--radius-md); background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); display: grid; place-items: center; font-size: 36px; flex-shrink: 0; backdrop-filter: blur(8px); }
+
+    /* ─── META GRID ─── */
+    .meta-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 24px; }
+    .meta-item { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: var(--radius-sm); padding: 12px 14px; backdrop-filter: blur(4px); transition: background 0.2s; }
+    .meta-item:hover { background: rgba(255,255,255,0.12); }
+    .meta-item .meta-label { display: block; font-size: 11px; color: rgba(255,255,255,0.62); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .meta-item strong { font-family: var(--font-display); font-size: 17px; font-weight: 800; color: #fff; display: block; }
+    .meta-item .subject-pill { display: inline-block; background: linear-gradient(135deg, #fff, #f0fdf4); color: var(--emerald); font-family: var(--font-display); font-size: 16px; font-weight: 900; padding: 5px 14px; border-radius: 999px; box-shadow: 0 2px 8px rgba(0,0,0,0.1), inset 0 -2px 0 rgba(180,83,9,0.2); }
+
+    /* ─── CONTENT ─── */
+    .content { padding: 32px 40px 36px; }
+
+    /* ─── STATS ROW ─── */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    .stat-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 16px; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow-card); transition: transform 0.2s, box-shadow 0.2s; }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .stat-icon { width: 46px; height: 46px; border-radius: var(--radius-sm); background: linear-gradient(135deg, #ecfdf5, #d1fae5); color: var(--emerald); font-size: 22px; display: grid; place-items: center; flex-shrink: 0; }
+    .stat-label { font-size: 12px; color: var(--muted); font-weight: 600; display: block; margin-bottom: 2px; }
+    .stat-value { font-family: var(--font-display); font-size: 26px; font-weight: 900; color: var(--emerald); display: block; line-height: 1; }
+
+    /* ─── DASHBOARD ─── */
+    .dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    .dash-card { border-radius: var(--radius-md); padding: 18px; border: 1px solid var(--line); background: var(--white); box-shadow: var(--shadow-card); position: relative; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+    .dash-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .dash-card::after { content: ''; position: absolute; bottom: -20px; inset-inline-end: -20px; width: 80px; height: 80px; border-radius: 50%; background: var(--emerald-glow); }
+    .dash-card.featured { background: linear-gradient(145deg, #064e3b, #065f46); border-color: transparent; }
+    .dash-card.featured::after { background: rgba(255,255,255,0.05); }
+    .dash-card .dc-label { font-size: 11.5px; font-weight: 700; color: var(--muted); letter-spacing: 0.04em; display: block; margin-bottom: 4px; position: relative; z-index: 1; }
+    .dash-card.featured .dc-label { color: rgba(255,255,255,0.65); }
+    .dash-card .dc-value { font-family: var(--font-display); font-size: 36px; font-weight: 900; color: var(--emerald); line-height: 1.1; display: block; position: relative; z-index: 1; }
+    .dash-card.featured .dc-value { color: #fff; }
+    .dash-card .dc-sub { font-size: 12px; color: var(--muted); display: block; margin-top: 2px; position: relative; z-index: 1; }
+    .dash-card.featured .dc-sub { color: rgba(255,255,255,0.6); }
+    .dash-card.status .dc-value { font-size: 24px; color: var(--gold); }
+
+    /* ─── ANALYSIS BOX ─── */
+    .analysis-box { background: linear-gradient(135deg, #fffbeb, #fefce8); border: 1px solid #fde68a; border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px; }
+    .analysis-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 14px; }
+    .analysis-item { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px; }
+    .analysis-item .ai-label { font-size: 12px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 6px; }
+    .analysis-item .ai-value { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--ink); display: block; }
+    .analysis-item.wide .ai-value { font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--ink-soft); }
+
+    /* ─── SECTION TITLE ─── */
+    .section-title { font-family: var(--font-display); font-size: 18px; font-weight: 900; color: var(--emerald); display: flex; align-items: center; gap: 10px; margin: 24px 0 14px; }
+    .section-title .stitle-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald-light); flex-shrink: 0; }
+    .section-title::after { content: ''; height: 1px; flex: 1; background: linear-gradient(to left, transparent, var(--line)); }
+
+    /* ─── TABLE ─── */
+    .table-wrap { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow-sm); }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    thead th { background: linear-gradient(180deg, #f0fdf4, #dcfce7); color: var(--emerald); font-family: var(--font-display); font-weight: 800; font-size: 15px; padding: 15px 14px; text-align: center; border-bottom: 2px solid #bbf7d0; letter-spacing: 0.01em; }
+    tbody tr { border-bottom: 1px solid var(--line-soft); transition: background 0.15s; }
+    tbody tr:hover { background: #f8fffe; }
+    tbody tr:last-child { border-bottom: none; }
+    td { padding: 14px; text-align: center; font-size: 16px; vertical-align: middle; }
+    .period-cell { font-family: var(--font-display); font-weight: 700; color: var(--emerald); background: #fafffe; font-size: 15px; }
+    .sum-cell { font-family: var(--font-display); font-weight: 900; color: var(--ink); font-size: 18px; }
+    .final-row { background: linear-gradient(135deg, #fffbeb, #f0fdf4) !important; }
+    .final-row td { border-top: 2px solid #fde68a; font-family: var(--font-display); font-weight: 800; font-size: 16px; }
+    .final-row .period-cell { background: transparent; color: var(--gold); }
+    .final-row .sum-cell { font-size: 22px; color: var(--gold); }
+    [contenteditable="true"] { outline: 2px solid transparent; outline-offset: -2px; transition: background 0.15s, outline-color 0.15s; border-radius: 8px; }
+    [contenteditable="true"]:hover { background: #f0fdf4; }
+    [contenteditable="true"]:focus { background: #fffde7; outline-color: rgba(180,83,9,0.35); color: #111827; }
+
+    /* ─── NAMES BOX ─── */
+    .names-box { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 28px; }
+    .name-field { background: var(--line-soft); border: 1px solid var(--line); border-radius: var(--radius-md); padding: 18px 20px; }
+    .name-field label { display: block; font-family: var(--font-display); font-weight: 800; font-size: 13px; color: var(--emerald); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 10px; }
+    .name-field input { width: 100%; height: 42px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 0 14px; font-family: var(--font-body); font-size: 16px; font-weight: 600; color: var(--ink); outline: none; text-align: center; }
+    .name-field input:focus { border-color: var(--emerald-mid); box-shadow: 0 0 0 3px rgba(5,150,105,0.1); }
+
+    /* ─── IMPORTED ─── */
+    .imported-section { margin-top: 24px; display: none; }
+    .imported-section.show { display: block; }
+    .imported-note { font-size: 13px; color: var(--muted); font-weight: 600; margin-bottom: 10px; line-height:1.6; }
+    .imported-table th, .imported-table td { font-size: 13px; padding: 10px 8px; word-break: break-word; }
+    .clickable-row { transition: background 0.2s; cursor: pointer; }
+    .clickable-row:hover { background: #f0fdf4; }
+
+    /* ─── FOOTER & TOAST ─── */
+    .report-footer { margin-top: 28px; padding: 14px 0 0; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 500; }
+    .report-footer .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--line); }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(16px); background: var(--ink); color: #fff; padding: 12px 22px; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); font-family: var(--font-display); font-weight: 700; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; z-index: 999; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ─── CREATIVE DASHBOARD ─── */
+    .creative-dashboard { margin: 28px 0; display: flex; flex-direction: column; gap: 16px; }
+    .db-section-title { font-family: var(--font-display); font-size: 20px; font-weight: 900; color: var(--emerald); display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+    .db-section-title .stitle-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--emerald-light); flex-shrink: 0; }
+    .db-section-title::after { content: ''; height: 1px; flex: 1; background: linear-gradient(to left, transparent, var(--line)); }
+    .db-top-row { display: grid; grid-template-columns: 200px 1fr; gap: 14px; align-items: stretch; }
+    .db-ring-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-card); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 14px; gap: 8px; position: relative; }
+    .db-ring-card .ring-label { font-size: 12px; font-weight: 700; color: var(--muted); text-align: center; }
+    .db-ring-card .ring-value { font-family: var(--font-display); font-size: 28px; font-weight: 900; color: var(--emerald); text-align: center; line-height: 1; }
+    .db-ring-card .ring-sub { font-size: 12px; color: var(--muted); text-align: center; }
+    .db-chart-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 18px 20px; }
+    .db-chart-card .db-card-title { font-family: var(--font-display); font-size: 13px; font-weight: 800; color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .db-chart-card .db-card-title span { width: 8px; height: 8px; border-radius: 2px; }
+    .db-chart-card span.dot-task { background: var(--emerald-mid); }
+    .db-chart-card span.dot-test { background: var(--gold-light); }
+    .db-bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .db-gauge-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .db-gauge-card .gauge-title { font-family: var(--font-display); font-size: 13px; font-weight: 800; color: var(--muted); align-self: flex-start; }
+    .db-split-card { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-card); padding: 18px; }
+    .db-split-card .split-title { font-family: var(--font-display); font-size: 13px; font-weight: 800; color: var(--muted); margin-bottom: 14px; }
+    .split-bar-row { display: flex; height: 36px; border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+    .split-seg { display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 13px; font-weight: 900; color: #fff; transition: flex 0.8s; }
+    .split-seg.task-seg { background: linear-gradient(135deg, #059669, #10b981); }
+    .split-seg.test-seg { background: linear-gradient(135deg, #d97706, #f59e0b); }
+    .split-legend { display: flex; gap: 14px; flex-wrap: wrap; }
+    .split-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); font-weight: 600; }
+    .split-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+    @media (max-width: 800px) { .page-shell { width: calc(100% - 24px); margin: 16px auto; } .header, .content { padding-inline: 20px; } .meta-grid, .stats-row, .dashboard, .analysis-grid, .names-box, .db-top-row, .db-bottom-row { grid-template-columns: 1fr 1fr; } .db-ring-card { grid-column: 1 / -1; flex-direction: row; justify-content: flex-start; gap: 20px; } .analysis-item.wide { grid-column: 1 / -1; } }
+    @media (max-width: 540px) { .toolbar button, .toolbar .file-label { font-size: 13px; padding: 8px 14px; } .header-top { flex-direction: column; } .meta-grid, .stats-row, .dashboard, .analysis-grid, .names-box, .db-top-row, .db-bottom-row { grid-template-columns: 1fr; } }
+    @media print { html, body { width: 210mm; background: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .toolbar, .imported-section, .toast { display: none !important; } .page-shell { width: 100%; margin: 0; } .report { box-shadow: none; border-radius: 0; border: none; } .header { padding: 10mm 12mm 8mm; } .title-block h1 { font-size: 22px; } .meta-grid { grid-template-columns: repeat(5, 1fr); } .stats-row, .dashboard, .analysis-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; } .names-box { grid-template-columns: repeat(2, 1fr); } .content { padding: 7mm 10mm; } .creative-dashboard { margin: 8px 0; gap: 8px; } .db-top-row, .db-bottom-row { gap: 6px; } .db-ring-card, .db-chart-card, .db-gauge-card, .db-split-card { padding: 8px; border-radius: 10px; } .db-top-row { grid-template-columns: 180px 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <label class="file-label" for="excelInput">
+      <span>📗</span> استيراد Excel من نور
+    </label>
+    <input id="excelInput" type="file" accept=".xlsx,.xls" />
+    <label class="file-label" for="pdfInput">
+      <span>📕</span> استيراد PDF من نور
+    </label>
+    <input id="pdfInput" type="file" accept=".pdf,application/pdf" />
+    <label class="select-label" for="analysisMode">📊 نوع التحليل</label>
+    <select id="analysisMode" class="analysis-select" aria-label="اختيار نوع التحليل">
+      <option value="period1">تحليل الفترة الأولى</option>
+      <option value="period2">تحليل الفترة الثانية</option>
+      <option value="final">تحليل نهاية الفصل</option>
+    </select>
+    <button class="btn btn-danger" id="clearImportedBtn">🧹 مسح المستورد</button>
+    <button class="btn btn-secondary" id="printBtn">🖨️ طباعة التقرير</button>
+    <button class="btn btn-ghost" id="pdfBtn">📄 حفظ PDF</button>
+  </div>
+
+  <div class="page-shell">
+    <main class="report" id="reportArea">
+
+      <header class="header">
+        <div class="header-deco"></div><div class="header-deco-2"></div><div class="header-deco-3"></div>
+        <div class="header-inner">
+          <div class="header-top">
+            <div class="title-block">
+              <h1 contenteditable="true">جدول توزيع درجات الفترات – المهارات الرقمية</h1>
+              <div class="subtitle" contenteditable="true">نموذج رسمي لتجهيز درجات الصف الرابع الابتدائي</div>
+            </div>
+            <div class="header-badge">💻</div>
+          </div>
+          <div class="meta-grid">
+            <div class="meta-item"><span class="meta-label">العام الدراسي</span><strong id="yearName" contenteditable="true">١٤٤٧هـ</strong></div>
+            <div class="meta-item"><span class="meta-label">الفصل الدراسي</span><strong id="termName" contenteditable="true">الثاني</strong></div>
+            <div class="meta-item"><span class="meta-label">المدرسة</span><strong id="schoolName" contenteditable="true">اسم المدرسة</strong></div>
+            <div class="meta-item"><span class="meta-label">المادة</span><strong><span class="subject-pill" id="subjectName" contenteditable="true">المهارات الرقمية</span></strong></div>
+            <div class="meta-item"><span class="meta-label">الصف</span><strong id="className" contenteditable="true">الرابع الابتدائي</strong></div>
+          </div>
+        </div>
+      </header>
+
+      <section class="content">
+
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-icon">🗓️</div><div><span class="stat-label" id="analysisCountLabel">نوع التحليل</span><span class="stat-value" id="analysisTypeValue">١</span></div></div>
+          <div class="stat-card"><div class="stat-icon">📝</div><div><span class="stat-label">متوسط المهام</span><span class="stat-value" id="topAvgTask">٤٠</span></div></div>
+          <div class="stat-card"><div class="stat-icon">✅</div><div><span class="stat-label">متوسط الاختبارات</span><span class="stat-value" id="topAvgTest">٦٠</span></div></div>
+          <div class="stat-card"><div class="stat-icon">🏁</div><div><span class="stat-label">متوسط المجموع</span><span class="stat-value" id="topAvgTotal">١٠٠</span></div></div>
+        </div>
+
+        <div class="dashboard">
+          <div class="dash-card featured"><span class="dc-label">متوسط المهام</span><span class="dc-value" id="dashTaskAvg">٤٠</span><span class="dc-sub">من ٤٠</span></div>
+          <div class="dash-card"><span class="dc-label">متوسط الاختبارات</span><span class="dc-value" id="dashTestAvg">٦٠</span><span class="dc-sub">من ٦٠</span></div>
+          <div class="dash-card"><span class="dc-label">متوسط المجموع</span><span class="dc-value" id="dashTotalAvg">١٠٠</span><span class="dc-sub">من ١٠٠</span></div>
+          <div class="dash-card status"><span class="dc-label">قراءة الأداء</span><span class="dc-value" id="dashStatus">ممتاز</span><span class="dc-sub" id="dashNote">الدرجات مكتملة</span></div>
+        </div>
+
+        <div class="analysis-box">
+          <div class="section-title"><span class="stitle-dot"></span>تحليل الدرجات</div>
+          <div class="analysis-grid">
+            <div class="analysis-item"><span class="ai-label">أعلى مجموع</span><span class="ai-value" id="analysisMax">١٠٠</span></div>
+            <div class="analysis-item"><span class="ai-label">أقل مجموع</span><span class="ai-value" id="analysisMin">١٠٠</span></div>
+            <div class="analysis-item"><span class="ai-label">نسبة الإنجاز</span><span class="ai-value" id="analysisPercent">١٠٠٪</span></div>
+            <div class="analysis-item wide"><span class="ai-label">التوصية</span><span class="ai-value" id="analysisRecommendation">المؤشرات مستقرة، ويُنصح بالمراجعة النهائية قبل الاعتماد.</span></div>
+          </div>
+        </div>
+
+        <div class="creative-dashboard" id="creativeDashboard">
+          <div class="db-section-title"><span class="stitle-dot"></span>لوحة التحليل البصري</div>
+          <div class="db-top-row">
+            <div class="db-ring-card">
+              <svg id="donutSvg" width="130" height="130" viewBox="0 0 130 130" style="transform:rotate(-90deg)">
+                <circle cx="65" cy="65" r="52" fill="none" stroke="#e2e8f0" stroke-width="14"/>
+                <circle id="donutFill" cx="65" cy="65" r="52" fill="none" stroke="#059669" stroke-width="14" stroke-linecap="round" stroke-dasharray="326.7 326.7" stroke-dashoffset="0" style="transition: stroke-dashoffset 1s"/>
+                <circle id="donutFill2" cx="65" cy="65" r="36" fill="none" stroke="#fbbf24" stroke-width="9" stroke-linecap="round" stroke-dasharray="226.2 226.2" stroke-dashoffset="0" style="transition: stroke-dashoffset 1s"/>
+              </svg>
+              <div style="position:absolute; display:flex; flex-direction:column; align-items:center; justify-content:center; inset:0; pointer-events:none;">
+                <span class="ring-value" id="ringPct">١٠٠٪</span><span class="ring-sub">إنجاز كلي</span>
+              </div>
+              <div class="ring-label">نسبة إنجاز الفترات</div>
+            </div>
+            <div class="db-chart-card">
+              <div class="db-card-title" id="chartTitle"><span class="dot-task"></span> مهام <span class="dot-test" style="margin-right:8px"></span> اختبارات &nbsp;—&nbsp; ملخص التحليل حسب الاختيار</div>
+              <div style="position:relative; height:130px;"><canvas id="barChart"></canvas></div>
+            </div>
+          </div>
+          <div class="db-bottom-row">
+            <div class="db-split-card">
+              <div class="split-title">توزيع الدرجات: مهام مقابل اختبارات</div>
+              <div class="split-bar-row" id="splitBar">
+                <div class="split-seg task-seg" id="splitTask" style="flex:40">٤٠٪</div>
+                <div class="split-seg test-seg" id="splitTest" style="flex:60">٦٠٪</div>
+              </div>
+              <div class="split-legend">
+                <div class="split-legend-item"><div class="split-legend-dot" style="background:#059669"></div>المهام الأدائية</div>
+                <div class="split-legend-item"><div class="split-legend-dot" style="background:#d97706"></div>الاختبارات</div>
+              </div>
+              <div style="margin-top:14px; display:flex; align-items:center; gap:14px;">
+                <svg width="70" height="70" viewBox="0 0 70 70" style="transform:rotate(-90deg); flex-shrink:0">
+                  <circle cx="35" cy="35" r="28" fill="none" stroke="#e2e8f0" stroke-width="10"/>
+                  <circle id="splitDonut" cx="35" cy="35" r="28" fill="none" stroke="#059669" stroke-width="10" stroke-linecap="round" stroke-dasharray="175.9 175.9" stroke-dashoffset="70.4" style="transition: stroke-dashoffset 0.9s"/>
+                </svg>
+                <div><div style="font-size:12px; color:var(--muted); font-weight:700;">نسبة المهام من الكلي</div><div id="splitPctText" style="font-family:var(--font-display); font-size:22px; font-weight:900; color:var(--emerald);">٤٠٪</div></div>
+              </div>
+            </div>
+            <div class="db-gauge-card">
+              <div class="gauge-title">مقياس الأداء العام</div>
+              <svg id="gaugeSvg" width="160" height="100" viewBox="0 0 160 100">
+                <path d="M 20 90 A 60 60 0 0 1 140 90" fill="none" stroke="#e2e8f0" stroke-width="16" stroke-linecap="round"/>
+                <path d="M 20 90 A 60 60 0 0 1 57 34" fill="none" stroke="#fca5a5" stroke-width="16" stroke-linecap="round" opacity="0.5"/>
+                <path d="M 57 34 A 60 60 0 0 1 103 34" fill="none" stroke="#fde68a" stroke-width="16" stroke-linecap="round" opacity="0.5"/>
+                <path d="M 103 34 A 60 60 0 0 1 140 90" fill="none" stroke="#bbf7d0" stroke-width="16" stroke-linecap="round" opacity="0.5"/>
+                <line id="gaugeNeedle" x1="80" y1="90" x2="80" y2="36" stroke="#065f46" stroke-width="3" stroke-linecap="round" style="transform-origin:80px 90px; transform:rotate(0deg); transition: transform 1.2s"/>
+                <circle cx="80" cy="90" r="6" fill="#065f46"/>
+                <text x="16" y="100" font-size="9" fill="#ef4444" font-family="Tajawal,sans-serif" font-weight="700">ضعيف</text>
+                <text x="65" y="18" font-size="9" fill="#d97706" font-family="Tajawal,sans-serif" font-weight="700">جيد</text>
+                <text x="122" y="100" font-size="9" fill="#059669" font-family="Tajawal,sans-serif" font-weight="700">ممتاز</text>
+              </svg>
+              <div id="gaugeLabel" style="font-family:var(--font-display); font-size:20px; font-weight:900; color:var(--emerald); margin-top:-6px;">ممتاز</div>
+              <div id="gaugeScore" style="font-size:12px; color:var(--muted); font-weight:700;">المتوسط الكلي: ١٠٠ / ١٠٠</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title"><span class="stitle-dot"></span>جدول توزيع الدرجات</div>
+        <div class="table-wrap">
+          <table id="gradesTable">
+            <thead><tr><th>الفترة</th><th>المهام الأدائية</th><th>الاختبارات</th><th>المجموع</th></tr></thead>
+            <tbody>
+              <tr data-row="period"><td class="period-cell" contenteditable="true">الفترة الأولى</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+              <tr data-row="period"><td class="period-cell" contenteditable="true">الفترة الثانية</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+              <tr data-row="period"><td class="period-cell" contenteditable="true">معدل الفترتين</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+              <tr class="final-row" data-row="final"><td class="period-cell" contenteditable="true">مجموع الفصل الثاني</td><td class="task-cell">٤٠</td><td class="test-cell">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <section class="imported-section" id="importedSection">
+          <div class="section-title"><span class="stitle-dot"></span>بيانات مستوردة من نظام نور</div>
+          <p class="imported-note" id="importedMeta"></p>
+          <div class="table-wrap" style="overflow-x:auto;">
+            <table class="imported-table" id="importedTable"></table>
+          </div>
+        </section>
+
+        <div class="names-box">
+          <div class="name-field"><label>اسم المعلم / ة</label><input type="text" autocomplete="off" placeholder="أدخل الاسم هنا" /></div>
+          <div class="name-field"><label>اسم المدير / ة</label><input type="text" autocomplete="off" placeholder="أدخل الاسم هنا" /></div>
+        </div>
+
+        <div class="report-footer">
+          <span>جدول توزيع الدرجات</span><span class="dot"></span><span id="footerSubject">المهارات الرقمية</span>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+  <script>
+    const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+    const DEFAULT_MAX = { task: 40, test: 60, total: 100 };
+    window.currentMaxTask = DEFAULT_MAX.task;
+    window.currentMaxTest = DEFAULT_MAX.test;
+    window.currentMaxTotal = DEFAULT_MAX.total;
+    window.currentImportedModel = null;
+    window.selectedStudentIndex = null;
+    window.importedExcelData = [];
+
+    const MODE_LABELS = {
+      period1: 'الفترة الأولى',
+      period2: 'الفترة الثانية',
+      final: 'نهاية الفصل'
+    };
+
+    function toArabicNumber(value) {
+      if (value === '' || value == null || Number.isNaN(value)) return '';
+      return String(value).replace(/\d/g, d => arabicDigits[Number(d)]);
+    }
+
+    function normalizeDigits(value) {
+      return String(value ?? '')
+        .replace(/[٠-٩]/g, d => String(arabicDigits.indexOf(d)))
+        .replace(/[۰-۹]/g, d => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)))
+        .replace(/،/g, '.')
+        .replace(/[^0-9.\-]/g, '');
+    }
+
+    function parseNumeric(value) {
+      if (typeof value === 'number' && Number.isFinite(value)) return value;
+      const n = parseFloat(normalizeDigits(value));
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function readNumber(cell) {
+      const n = parseFloat(normalizeDigits(cell.textContent));
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function formatGrade(n) {
+      if (n === '' || n == null || Number.isNaN(n)) return '—';
+      const r = Math.round((Number(n) + Number.EPSILON) * 100) / 100;
+      const s = Number.isInteger(r) ? r.toString() : r.toFixed(2).replace(/0+$/, '').replace(/\.$/, '');
+      return toArabicNumber(s);
+    }
+
+    function average(vals) {
+      const f = vals.filter(v => Number.isFinite(v));
+      return f.length ? f.reduce((a, b) => a + b, 0) / f.length : 0;
+    }
+
+    function cleanText(value) {
+      return String(value ?? '').replace(/\s+/g, ' ').trim();
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function displayCell(value) {
+      const num = parseNumeric(value);
+      if (num !== null && cleanText(value) !== '') return `<span class="num">${formatGrade(num)}</span>`;
+      return escapeHtml(cleanText(value));
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._t);
+      t._t = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function setText(id, value) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = value;
+    }
+
+    const gradesTable = document.getElementById('gradesTable');
+
+    function calculateRows() {
+      const periodRows = [...gradesTable.querySelectorAll('tbody tr[data-row="period"]')];
+      const tasks = [], tests = [], totals = [];
+
+      periodRows.forEach(row => {
+        const t = readNumber(row.querySelector('.task-cell'));
+        const x = readNumber(row.querySelector('.test-cell'));
+        tasks.push(t);
+        tests.push(x);
+        totals.push(t + x);
+        row.querySelector('.sum-cell').textContent = formatGrade(t + x);
+      });
+
+      const finalRow = gradesTable.querySelector('tbody tr[data-row="final"]');
+      const avgRow = periodRows[2] || periodRows[0];
+      if (avgRow && finalRow && !window.currentImportedModel) {
+        const at = readNumber(avgRow.querySelector('.task-cell'));
+        const ax = readNumber(avgRow.querySelector('.test-cell'));
+        finalRow.querySelector('.task-cell').textContent = formatGrade(at);
+        finalRow.querySelector('.test-cell').textContent = formatGrade(ax);
+        finalRow.querySelector('.sum-cell').textContent = formatGrade(at + ax);
+      }
+
+      updateDashboard(tasks, tests, totals);
+      setTimeout(() => { try { updateCreativeDashboard(); } catch(e) { console.warn(e); } }, 50);
+    }
+
+    function updateDashboard(tasks, tests, totals) {
+      const maxTask = window.currentMaxTask || DEFAULT_MAX.task;
+      const maxTest = window.currentMaxTest || DEFAULT_MAX.test;
+      const maxTotal = window.currentMaxTotal || (maxTask + maxTest) || DEFAULT_MAX.total;
+
+      const taskAvg = average(tasks), testAvg = average(tests), totalAvg = average(totals);
+      const maxT = totals.length ? Math.max(...totals) : 0;
+      const minT = totals.length ? Math.min(...totals) : 0;
+      const pct = maxTotal ? Math.max(0, Math.min(100, (totalAvg / maxTotal) * 100)) : 0;
+
+      setText('dashTaskAvg', formatGrade(taskAvg));
+      setText('dashTestAvg', formatGrade(testAvg));
+      setText('dashTotalAvg', formatGrade(totalAvg));
+      setText('topAvgTask', formatGrade(taskAvg));
+      setText('topAvgTest', formatGrade(testAvg));
+      setText('topAvgTotal', formatGrade(totalAvg));
+      setText('analysisMax', formatGrade(maxT));
+      setText('analysisMin', formatGrade(minT));
+      setText('analysisPercent', `${formatGrade(pct)}٪`);
+
+      const dashCards = document.querySelectorAll('.dash-card .dc-sub');
+      if (dashCards[0]) dashCards[0].textContent = `من ${formatGrade(maxTask)}`;
+      if (dashCards[1]) dashCards[1].textContent = `من ${formatGrade(maxTest)}`;
+      if (dashCards[2]) dashCards[2].textContent = `من ${formatGrade(maxTotal)}`;
+
+      let status = 'ممتاز',
+          note = 'الدرجات مستقرة',
+          rec = 'المؤشرات مستقرة، ويُنصح بالمراجعة النهائية قبل الاعتماد.';
+      if (pct < 60) {
+        status = 'بحاجة لمعالجة';
+        note = 'يوجد انخفاض واضح';
+        rec = 'يوصى بحصر الطلاب الأقل أداءً، وتنفيذ معالجة مركزة للمهارات المتعثرة.';
+      } else if (pct < 80) {
+        status = 'جيد';
+        note = 'الأداء مقبول للتحسين';
+        rec = 'يوصى بتعزيز المهام الأدائية ومراجعة أسئلة التقويم، مع متابعة الطلاب القريبين من مستوى الإتقان.';
+      }
+
+      setText('dashStatus', status);
+      setText('dashNote', note);
+      setText('analysisRecommendation', rec);
+    }
+
+    gradesTable.addEventListener('input', e => {
+      if (e.target.classList.contains('task-cell') || e.target.classList.contains('test-cell')) calculateRows();
+    });
+
+    gradesTable.addEventListener('blur', e => {
+      if (e.target.matches('[contenteditable="true"]') && (e.target.classList.contains('task-cell') || e.target.classList.contains('test-cell'))) {
+        const n = parseFloat(normalizeDigits(e.target.textContent));
+        if (Number.isFinite(n)) e.target.textContent = formatGrade(n);
+        calculateRows();
+      }
+    }, true);
+
+    // ─── EXCEL IMPORT & SMART BINDING ───
+    function getAnalysisLabel() {
+      const mode = document.getElementById('analysisMode')?.value || 'period1';
+      return MODE_LABELS[mode] || MODE_LABELS.period1;
+    }
+
+    function findValueBesideLabel(rows, labels) {
+      const labelSet = Array.isArray(labels) ? labels : [labels];
+      const topRows = rows.slice(0, 35);
+      for (const row of topRows) {
+        for (let i = 0; i < row.length; i++) {
+          const cell = cleanText(row[i]);
+          if (!cell) continue;
+          if (labelSet.some(label => cell === label || cell.includes(label))) {
+            for (let j = i + 1; j < row.length; j++) {
+              const val = cleanText(row[j]);
+              if (val && !labelSet.some(label => val === label || val.includes(label))) return val;
+            }
+            for (let j = i - 1; j >= 0; j--) {
+              const val = cleanText(row[j]);
+              if (val && !labelSet.some(label => val === label || val.includes(label))) return val;
+            }
+          }
+        }
+      }
+      return '';
+    }
+
+    function detectMeta(rows, fileName) {
+      const subjectFromLabel = findValueBesideLabel(rows, ['المادة']);
+      const classFromLabel = findValueBesideLabel(rows, ['الصف', 'الفصل']);
+      const fileParts = cleanText(fileName).replace(/\.(xlsx?|pdf)$/i, '').split('_').map(cleanText).filter(Boolean);
+      let subject = subjectFromLabel || fileParts[0] || 'المادة';
+      let className = classFromLabel || fileParts[1] || 'الصف';
+
+      let school = '';
+      const banned = ['وزارة التعليم', 'كشف درجات الطلاب', 'الفصل الثاني', 'الفصل الأول', 'الفصل الثالث', 'المادة', 'الفصل', 'الصف', 'القسم', 'العام'];
+      for (const row of rows.slice(0, 35)) {
+        for (const value of row) {
+          const text = cleanText(value);
+          if (!text || banned.some(b => text.includes(b)) || text === subject || text === className) continue;
+          if (/مدرس|ابتدائية|متوسطة|ثانوية|الراشدية|المتوسطة|الثانوية|الابتدائية/.test(text)) {
+            school = text;
+            break;
+          }
+        }
+        if (school) break;
+      }
+      if (!school) school = cleanText(rows?.[2]?.[0]) || 'اسم المدرسة';
+
+      let term = findValueBesideLabel(rows, ['الفصل الدراسي']);
+      if (!term) {
+        for (const row of rows.slice(0, 35)) {
+          for (const value of row) {
+            const text = cleanText(value);
+            if (/الفصل\s+(الأول|الثاني|الثالث)/.test(text)) { term = text; break; }
+          }
+          if (term) break;
+        }
+      }
+      if (!term) term = 'الفصل الدراسي';
+
+      let year = findValueBesideLabel(rows, ['العام', 'العام الدراسي']);
+      if (!/\d/.test(normalizeDigits(year))) {
+        for (const row of rows.slice(0, 35)) {
+          for (const value of row) {
+            const text = cleanText(value);
+            if (/14\d{2}|١٤\d{2}|144\d|١٤٤\d/.test(normalizeDigits(text))) { year = text; break; }
+          }
+          if (year) break;
+        }
+      }
+      if (!year) year = '١٤٤٧هـ';
+      else if (/^\d+(\.0)?$/.test(normalizeDigits(year))) year = `${formatGrade(parseNumeric(year))}هـ`;
+
+      return { subject, className, school, term, year };
+    }
+
+    function rowHasStudentHeader(row) {
+      const joined = row.map(cleanText).join(' ');
+      return joined.includes('اسم الطالب') || (joined.includes('المجموع') && (joined.includes('اختبار') || joined.includes('أدوات') || joined.includes('تقويم')));
+    }
+
+    function isLikelyMaxRow(row, table) {
+      const nameText = table.nameCol >= 0 ? cleanText(row[table.nameCol]) : '';
+      const seqText = table.seqCol >= 0 ? cleanText(row[table.seqCol]) : '';
+      const idText = table.idCol >= 0 ? cleanText(row[table.idCol]) : '';
+      if (nameText.includes('اسم الطالب') || idText.includes('رقم الطالب') || seqText === '#') return true;
+      return false;
+    }
+
+    function inferMaxForColumn(header, fallback) {
+      header = cleanText(header);
+      if (header.includes('المجموع')) return 100;
+      if (header.includes('نهاية الفصل')) return 40;
+      if (header.includes('أدوات')) return 40;
+      if (header.includes('اختبارات قصيرة')) return 20;
+      if (header.includes('مهام') || header.includes('مشاركة') || header.includes('تفاعل')) return 40;
+      if (header.includes('تقويمات') || header.includes('شفهية') || header.includes('تحريرية')) return 60;
+      return fallback;
+    }
+
+    function detectNoorTable(rows) {
+      const headerIndex = rows.findIndex(row => rowHasStudentHeader(row));
+      if (headerIndex < 0) return null;
+
+      const header = rows[headerIndex].map(cleanText);
+      const nameCol = header.findIndex(h => h.includes('اسم الطالب'));
+      let idCol = header.findIndex(h => h.includes('رقم الطالب'));
+      if (idCol < 0) idCol = header.findIndex(h => h.includes('رقم الجلوس'));
+      let seqCol = header.findIndex(h => h === 'م' || h === '#' || h.includes('مسلسل'));
+      if (seqCol < 0) seqCol = 0;
+
+      const totalCol = header.findIndex(h => h.includes('المجموع'));
+      const finalExamCol = header.findIndex(h => h.includes('نهاية الفصل'));
+      const toolsCol = header.findIndex(h => h.includes('أدوات') || h.includes('مهام') || h.includes('المشاركة') || h.includes('التفاعل'));
+      const shortCol = header.findIndex(h => h.includes('اختبارات قصيرة'));
+      let periodTestCol = header.findIndex(h => (h.includes('تقويمات') || h.includes('شفهية') || h.includes('تحريرية')));
+      if (periodTestCol < 0) periodTestCol = header.findIndex((h, i) => h.includes('اختبار') && i !== finalExamCol && i !== shortCol);
+
+      const candidateGradeCols = header
+        .map((h, i) => ({ h, i }))
+        .filter(x => x.h && !x.h.includes('اسم الطالب') && !x.h.includes('رقم الطالب') && !x.h.includes('رقم الجلوس') && x.h !== 'م' && x.h !== '#')
+        .map(x => x.i);
+
+      if (candidateGradeCols.length < 2 && totalCol < 0) return null;
+
+      const possibleMaxRow = rows[headerIndex + 1] || [];
+      const tableSeed = { nameCol, idCol, seqCol };
+      const hasSeparateMaxRow = isLikelyMaxRow(possibleMaxRow, tableSeed);
+      const dataStart = headerIndex + (hasSeparateMaxRow ? 2 : 1);
+
+      function maxAt(col, fallback) {
+        const fromMaxRow = hasSeparateMaxRow && col >= 0 ? parseNumeric(possibleMaxRow[col]) : null;
+        if (fromMaxRow !== null) return fromMaxRow;
+        return inferMaxForColumn(header[col] || '', fallback);
+      }
+
+      const maxTools = maxAt(toolsCol, DEFAULT_MAX.task);
+      const maxShort = maxAt(shortCol, shortCol >= 0 ? 20 : 0);
+      const maxPeriodTest = maxAt(periodTestCol, DEFAULT_MAX.test);
+      const maxFinal = maxAt(finalExamCol, 40);
+      const maxTotal = maxAt(totalCol, finalExamCol >= 0 ? 100 : (maxTools + (periodTestCol >= 0 ? maxPeriodTest : maxShort)));
+
+      const students = [];
+      rows.slice(dataStart).forEach((row, localIndex) => {
+        const seq = seqCol >= 0 ? parseNumeric(row[seqCol]) : null;
+        const id = idCol >= 0 ? cleanText(row[idCol]) : '';
+        let name = nameCol >= 0 ? cleanText(row[nameCol]) : '';
+
+        const tools = toolsCol >= 0 ? parseNumeric(row[toolsCol]) : null;
+        const shortTest = shortCol >= 0 ? parseNumeric(row[shortCol]) : null;
+        const periodTest = periodTestCol >= 0 ? parseNumeric(row[periodTestCol]) : null;
+        const finalExam = finalExamCol >= 0 ? parseNumeric(row[finalExamCol]) : null;
+        const explicitTotal = totalCol >= 0 ? parseNumeric(row[totalCol]) : null;
+
+        const anyGrade = [tools, shortTest, periodTest, finalExam, explicitTotal].some(v => v !== null);
+        if (!anyGrade) return;
+        if (seq === null && !name && !id && localIndex > 40) return;
+
+        if (!name || name.includes('اسم الطالب')) name = seq !== null ? `طالب رقم ${formatGrade(seq)}` : `طالب ${formatGrade(students.length + 1)}`;
+
+        const normalTest = periodTest !== null ? periodTest : (shortTest !== null ? shortTest : 0);
+        const normalTask = tools !== null ? tools : 0;
+        const normalTotal = explicitTotal !== null ? explicitTotal : (normalTask + normalTest + (finalExam !== null ? finalExam : 0));
+
+        students.push({
+          index: students.length,
+          rawIndex: dataStart + localIndex,
+          seq,
+          id,
+          name,
+          task: normalTask,
+          test: normalTest,
+          tools: normalTask,
+          shortTest: shortTest ?? 0,
+          periodTest: normalTest,
+          finalExam: finalExam ?? 0,
+          total: normalTotal,
+          raw: row
+        });
+      });
+
+      const hasFinalStructure = finalExamCol >= 0;
+      return {
+        headerIndex,
+        header,
+        maxRow: possibleMaxRow,
+        nameCol,
+        idCol,
+        seqCol,
+        toolsCol,
+        taskCol: toolsCol,
+        shortCol,
+        periodTestCol,
+        testCol: periodTestCol >= 0 ? periodTestCol : shortCol,
+        finalExamCol,
+        totalCol,
+        hasFinalStructure,
+        maxTask: maxTools,
+        maxTest: periodTestCol >= 0 ? maxPeriodTest : maxShort,
+        maxShort,
+        maxFinal,
+        maxTotal,
+        students
+      };
+    }
+
+    function buildImportedModel(rows, fileName) {
+      const meta = detectMeta(rows, fileName);
+      const table = detectNoorTable(rows);
+      if (!table || !table.students.length) return null;
+      return { meta, table, rows, fileName };
+    }
+
+    function applyMeta(meta) {
+      const analysisLabel = getAnalysisLabel();
+      setText('subjectName', meta.subject);
+      setText('footerSubject', meta.subject);
+      setText('schoolName', meta.school);
+      setText('className', meta.className);
+      setText('termName', meta.term);
+      setText('yearName', meta.year);
+      document.querySelector('.title-block h1').textContent = `تحليل درجات ${analysisLabel} – ${meta.subject}`;
+      document.querySelector('.title-block .subtitle').textContent = `${meta.school} — ${meta.className}`;
+      setText('analysisTypeValue', analysisLabel === 'نهاية الفصل' ? 'نهائي' : 'فترة');
+      setText('analysisCountLabel', 'نوع التحليل');
+    }
+
+    function getModeSettings(table) {
+      const mode = document.getElementById('analysisMode')?.value || 'period1';
+      if (table.hasFinalStructure) {
+        if (mode === 'final') {
+          return {
+            mode,
+            taskLabel: 'أعمال السنة',
+            testLabel: 'اختبار نهاية الفصل',
+            maxTask: (table.maxTask || 0) + (table.maxShort || 0),
+            maxTest: table.maxFinal || 40,
+            maxTotal: table.maxTotal || 100
+          };
+        }
+        return {
+          mode,
+          taskLabel: 'أدوات تقييم متنوعة',
+          testLabel: 'اختبارات قصيرة',
+          maxTask: table.maxTask || 40,
+          maxTest: table.maxShort || 20,
+          maxTotal: (table.maxTask || 40) + (table.maxShort || 20)
+        };
+      }
+      return {
+        mode,
+        taskLabel: 'المهام الأدائية',
+        testLabel: 'الاختبارات',
+        maxTask: table.maxTask || DEFAULT_MAX.task,
+        maxTest: table.maxTest || DEFAULT_MAX.test,
+        maxTotal: table.maxTotal || ((table.maxTask || DEFAULT_MAX.task) + (table.maxTest || DEFAULT_MAX.test))
+      };
+    }
+
+    function scoreForMode(student, table) {
+      const settings = getModeSettings(table);
+      if (table.hasFinalStructure) {
+        if (settings.mode === 'final') {
+          const task = (student.tools || 0) + (student.shortTest || 0);
+          const test = student.finalExam || 0;
+          const total = student.total || (task + test);
+          return { task, test, total };
+        }
+        const task = student.tools || 0;
+        const test = student.shortTest || student.periodTest || 0;
+        return { task, test, total: task + test };
+      }
+      return { task: student.task || 0, test: student.test || 0, total: student.total || ((student.task || 0) + (student.test || 0)) };
+    }
+
+    function getSummaryFromStudents(students, table) {
+      const scores = students.map(s => scoreForMode(s, table));
+      const taskVals = scores.map(s => s.task);
+      const testVals = scores.map(s => s.test);
+      const totalVals = scores.map(s => s.total);
+      return {
+        avgTask: average(taskVals),
+        avgTest: average(testVals),
+        avgTotal: average(totalVals),
+        maxTask: taskVals.length ? Math.max(...taskVals) : 0,
+        maxTest: testVals.length ? Math.max(...testVals) : 0,
+        maxTotal: totalVals.length ? Math.max(...totalVals) : 0,
+        minTask: taskVals.length ? Math.min(...taskVals) : 0,
+        minTest: testVals.length ? Math.min(...testVals) : 0,
+        minTotal: totalVals.length ? Math.min(...totalVals) : 0
+      };
+    }
+
+    function renderGradesSummaryTable(model, student = null) {
+      const table = model.table;
+      const settings = getModeSettings(table);
+      const label = getAnalysisLabel();
+      window.currentMaxTask = settings.maxTask;
+      window.currentMaxTest = settings.maxTest;
+      window.currentMaxTotal = settings.maxTotal || settings.maxTask + settings.maxTest;
+
+      const headerCells = gradesTable.querySelectorAll('thead th');
+      if (headerCells[1]) headerCells[1].textContent = settings.taskLabel;
+      if (headerCells[2]) headerCells[2].textContent = settings.testLabel;
+
+      let rows;
+      if (student) {
+        const sc = scoreForMode(student, table);
+        const summary = getSummaryFromStudents(table.students, table);
+        rows = [
+          { label: `${label} – درجة الطالب`, task: sc.task, test: sc.test, total: sc.total, type: 'period' },
+          { label: 'الدرجة العظمى', task: settings.maxTask, test: settings.maxTest, total: window.currentMaxTotal, type: 'period' },
+          { label: 'متوسط الفصل', task: summary.avgTask, test: summary.avgTest, total: summary.avgTotal, type: 'period' },
+          { label: 'نتيجة الطالب مقارنة بالدرجة العظمى', task: sc.task, test: sc.test, total: sc.total, type: 'final' }
+        ];
+      } else {
+        const summary = getSummaryFromStudents(table.students, table);
+        rows = [
+          { label: `${label} – متوسط الفصل`, task: summary.avgTask, test: summary.avgTest, total: summary.avgTotal, type: 'period' },
+          { label: 'أعلى درجة', task: summary.maxTask, test: summary.maxTest, total: summary.maxTotal, type: 'period' },
+          { label: 'أقل درجة', task: summary.minTask, test: summary.minTest, total: summary.minTotal, type: 'period' },
+          { label: 'الدرجة العظمى المعتمدة', task: settings.maxTask, test: settings.maxTest, total: window.currentMaxTotal, type: 'final' }
+        ];
+      }
+
+      const tbody = gradesTable.querySelector('tbody');
+      tbody.innerHTML = rows.map(row => `
+        <tr ${row.type === 'final' ? 'class="final-row" data-row="final"' : 'data-row="period"'}>
+          <td class="period-cell">${escapeHtml(row.label)}</td>
+          <td class="task-cell num">${formatGrade(row.task)}</td>
+          <td class="test-cell num">${formatGrade(row.test)}</td>
+          <td class="sum-cell num">${formatGrade(row.total)}</td>
+        </tr>
+      `).join('');
+
+      const analysisRows = student ? rows.filter(r => r.type === 'period' && r.label.includes('درجة الطالب')) : rows.filter(r => r.type === 'period');
+      const tasks = analysisRows.map(r => r.task);
+      const tests = analysisRows.map(r => r.test);
+      const totals = analysisRows.map(r => r.total);
+      updateDashboard(tasks, tests, totals);
+      setTimeout(() => { try { updateCreativeDashboard(); } catch(e) { console.warn(e); } }, 50);
+    }
+
+    function renderImportedTable(model) {
+      const { table, fileName } = model;
+      const importedTable = document.getElementById('importedTable');
+      const settings = getModeSettings(table);
+      const visibleCols = [];
+      if (table.seqCol >= 0) visibleCols.push({ label: 'م', value: s => s.seq !== null && s.seq !== undefined ? formatGrade(s.seq) : '' });
+      if (table.idCol >= 0) visibleCols.push({ label: table.header[table.idCol] || 'رقم الطالب', value: s => s.id });
+      visibleCols.push({ label: 'اسم الطالب', value: s => s.name });
+      visibleCols.push({ label: settings.taskLabel, value: s => formatGrade(scoreForMode(s, table).task), numeric: true });
+      visibleCols.push({ label: settings.testLabel, value: s => formatGrade(scoreForMode(s, table).test), numeric: true });
+      visibleCols.push({ label: 'المجموع', value: s => formatGrade(scoreForMode(s, table).total), numeric: true });
+
+      let html = '<thead><tr>';
+      visibleCols.forEach(col => html += `<th>${escapeHtml(col.label)}</th>`);
+      html += '<th style="background:#059669; color:#fff;">إجراء الربط</th></tr></thead><tbody>';
+
+      table.students.forEach((student, idx) => {
+        html += `<tr class="clickable-row" onclick="loadStudentToDashboard(${idx})">`;
+        visibleCols.forEach(col => html += `<td${col.numeric ? ' class="num"' : ''}>${escapeHtml(col.value(student))}</td>`);
+        html += `<td><button class="btn-ghost" style="padding:4px 8px; font-size:12px; font-family:var(--font-display);">عرض تقريره</button></td></tr>`;
+      });
+
+      html += '</tbody>';
+      importedTable.innerHTML = html;
+
+      const maxTotal = settings.maxTotal || settings.maxTask + settings.maxTest;
+      document.getElementById('importedMeta').innerHTML =
+        `الملف: <strong>${escapeHtml(fileName)}</strong> — ` +
+        `المدرسة: <strong>${escapeHtml(model.meta.school)}</strong> — ` +
+        `المادة: <strong>${escapeHtml(model.meta.subject)}</strong> — ` +
+        `عدد الطلاب: <strong>${toArabicNumber(table.students.length)}</strong> — ` +
+        `نوع التحليل: <strong>${escapeHtml(getAnalysisLabel())}</strong> — ` +
+        `الدرجة العظمى: <strong>${formatGrade(maxTotal)}</strong><br>` +
+        `<span style="color:var(--emerald-mid); font-size:14px; font-weight:700;">💡 اختر نوع التحليل من الأعلى، ثم انقر على (عرض تقريره) بجانب أي طالب لعرض تحليله الفردي.</span>`;
+    }
+
+    function processExcelDataToDashboard(rows, fileName) {
+      const model = buildImportedModel(rows, fileName);
+      const section = document.getElementById('importedSection');
+
+      if (!model) {
+        section.classList.add('show');
+        document.getElementById('importedMeta').textContent = 'لم يتم العثور على جدول درجات صالح يحتوي على اسم الطالب والمهام والتقويمات.';
+        document.getElementById('importedTable').innerHTML = '';
+        showToast('تعذر بناء التحليل من هذا الملف');
+        return;
+      }
+
+      window.currentImportedModel = model;
+      window.selectedStudentIndex = null;
+      window.importedExcelData = model.table.students;
+      section.classList.add('show');
+
+      applyMeta(model.meta);
+      renderGradesSummaryTable(model);
+      renderImportedTable(model);
+      showToast('تم استيراد ملف نور وقراءة المادة والمدرسة بنجاح');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function finishImportedModel(model, sourceMessage) {
+      const section = document.getElementById('importedSection');
+      if (!model) {
+        section.classList.add('show');
+        document.getElementById('importedMeta').textContent = 'لم يتم العثور على جدول درجات صالح يحتوي على اسم الطالب والمهام والتقويمات.';
+        document.getElementById('importedTable').innerHTML = '';
+        showToast('تعذر بناء التحليل من هذا الملف');
+        return false;
+      }
+
+      window.currentImportedModel = model;
+      window.selectedStudentIndex = null;
+      window.importedExcelData = model.table.students;
+      section.classList.add('show');
+
+      applyMeta(model.meta);
+      renderGradesSummaryTable(model);
+      renderImportedTable(model);
+      showToast(sourceMessage || 'تم استيراد الملف وقراءة البيانات بنجاح');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return true;
+    }
+
+    function stripBidiControls(value) {
+      return String(value ?? '').replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069]/g, '');
+    }
+
+    function compactPdfText(text) {
+      return cleanText(stripBidiControls(text))
+        .replace(/اال/g, 'الا')
+        .replace(/إلابتدائية/g, 'الإبتدائية')
+        .replace(/االبتدائي/g, 'الابتدائي')
+        .replace(/عبدهللا/g, 'عبدالله')
+        .replace(/للـ/g, 'لـ');
+    }
+
+    function detectPdfMeta(text, fileName) {
+      const raw = compactPdfText(text);
+      let subject = 'المادة غير محددة';
+      let className = 'الصف غير محدد';
+      let term = 'الفصل الدراسي';
+      let year = '١٤٤٧هـ';
+      let school = 'غير موضح في ملف PDF';
+
+      const titleMatch = raw.match(/ادخال\s+الدرجات\s+لـ\s*[\)\(]?\s*(.+?)(?:\)\s*مستمر|\(\s*مستمر|\s*-\s*فترة)/);
+      if (titleMatch) {
+        const parts = titleMatch[1].split('-').map(cleanText).filter(Boolean);
+        className = parts[0] || className;
+        subject = parts[parts.length - 1] || subject;
+      }
+
+      const subjectMatch = raw.match(/-\s*([^\-\)\(]{3,80})\s*[\)\(]?\s*مستمر/);
+      if ((subject === 'المادة غير محددة' || /فصل\s*\d/.test(subject)) && subjectMatch) subject = cleanText(subjectMatch[1].split('-').pop());
+      subject = subject.replace(/^فصل\s*\d+\s*/,'').trim() || 'المادة غير محددة';
+
+      const classMatch = raw.match(/لـ\s*[\)\(]?\s*([^\-\)\(]+?)\s*-/);
+      if (classMatch) className = cleanText(classMatch[1]);
+
+      const termMatch = raw.match(/الفصل\s+الدراسي\s*[\)\(]?\s*(الفصل\s+(?:الأول|الاول|الثاني|الثالث))/);
+      if (termMatch) term = cleanText(termMatch[1]);
+
+      const yearMatch = raw.match(/(14\d{2}|١٤\d{2}|144\d|١٤٤\d)\s*هـ?/);
+      if (yearMatch) year = toArabicNumber(normalizeDigits(yearMatch[1])) + 'هـ';
+
+      const schoolMatch = raw.match(/((?:مدرسة|ابتدائية|متوسطة|ثانوية)[^\n\r\-]{3,80})/);
+      if (schoolMatch && !/المرحلة|الدراسية|الفصل|ادخال/.test(schoolMatch[1])) school = cleanText(schoolMatch[1]);
+
+      return { subject, className, school, term, year };
+    }
+
+    function isIdToken(token) {
+      const n = normalizeDigits(stripBidiControls(token));
+      return /^\d{10}$/.test(n);
+    }
+
+    function numericTokenValue(token) {
+      const cleaned = normalizeDigits(stripBidiControls(token));
+      if (!/^\-?\d+(?:\.\d+)?$/.test(cleaned)) return null;
+      const n = parseFloat(cleaned);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function tokensToName(tokens) {
+      return cleanText(tokens.join(' '))
+        .replace(/^[\-–—\s]+|[\-–—\s]+$/g, '')
+        .replace(/\babout:blank\b/gi, '')
+        .trim();
+    }
+
+    function makePdfStudent(id, name, values, rawLine) {
+      if (!name || /اسم الطالب|رقم الطالب|الفصل|مجموع|about:blank/i.test(name)) return null;
+      if (!values || values.length < 6) return null;
+
+      const classNo = values[0] ?? 1;
+      const firstTotal = values[1] ?? 0;
+      const task = values[2] ?? 0;
+      const test = values[3] ?? 0;
+      const secondTotal = values[4] ?? (task + test);
+      const generalTotal = values[5] ?? secondTotal;
+
+      // فلترة احترازية حتى لا تُقرأ أرقام رأس الصفحة كتلاميذ.
+      if (task > 45 || test > 70 || secondTotal > 110 || generalTotal > 110) return null;
+
+      return {
+        index: 0,
+        rawIndex: 0,
+        seq: classNo,
+        id,
+        name,
+        firstTotal,
+        task,
+        test,
+        tools: task,
+        shortTest: 0,
+        periodTest: test,
+        finalExam: 0,
+        total: secondTotal,
+        generalTotal,
+        raw: [id, name, classNo, firstTotal, task, test, secondTotal, generalTotal, rawLine]
+      };
+    }
+
+    function parsePdfStudentLine(line) {
+      const cleanLine = compactPdfText(line);
+      if (!cleanLine || !/\d/.test(cleanLine) || !/[\u0600-\u06FF]/.test(cleanLine)) return null;
+      if (/رقم الطالب|اسم الطالب|المجموع العام|ادخال الدرجات|الفصل الدراسي|about:blank/i.test(cleanLine)) return null;
+
+      const tokens = cleanLine.split(/\s+/).filter(Boolean);
+      const idIndex = tokens.findIndex(isIdToken);
+      if (idIndex < 0) return null;
+      const id = normalizeDigits(tokens[idIndex]).padStart(10, '0');
+
+      const numericPositions = [];
+      tokens.forEach((token, index) => {
+        if (index === idIndex) return;
+        const value = numericTokenValue(token);
+        if (value !== null) numericPositions.push({ index, value });
+      });
+
+      const afterIdNums = numericPositions.filter(p => p.index > idIndex);
+      if (afterIdNums.length >= 6) {
+        const firstNumIndex = afterIdNums[0].index;
+        const name = tokensToName(tokens.slice(idIndex + 1, firstNumIndex));
+        const values = afterIdNums.slice(0, 6).map(p => p.value);
+        const student = makePdfStudent(id, name, values, cleanLine);
+        if (student) return student;
+      }
+
+      const beforeIdNums = numericPositions.filter(p => p.index < idIndex);
+      if (beforeIdNums.length >= 6) {
+        const lastSix = beforeIdNums.slice(-6);
+        const valuesVisual = lastSix.map(p => p.value);
+        // عند استخراج PDF أحيانًا تأتي الأعمدة من اليسار إلى اليمين:
+        // المجموع العام، مجموع الفصل الثاني، الاختبار، المهام، مجموع الفصل الأول، الفصل.
+        const values = [valuesVisual[5], valuesVisual[4], valuesVisual[3], valuesVisual[2], valuesVisual[1], valuesVisual[0]];
+        const nameBeforeId = tokensToName(tokens.slice(lastSix[lastSix.length - 1].index + 1, idIndex));
+        const nameAfterId = tokensToName(tokens.slice(idIndex + 1));
+        const name = nameBeforeId || nameAfterId;
+        const student = makePdfStudent(id, name, values, cleanLine);
+        if (student) return student;
+      }
+
+      // حالة نادرة: رقم الهوية في منتصف السطر، والاسم بعده، والأرقام قبله.
+      if (beforeIdNums.length >= 6 && idIndex < tokens.length - 1) {
+        const lastSix = beforeIdNums.slice(-6);
+        const valuesVisual = lastSix.map(p => p.value);
+        const values = [valuesVisual[5], valuesVisual[4], valuesVisual[3], valuesVisual[2], valuesVisual[1], valuesVisual[0]];
+        const name = tokensToName(tokens.slice(idIndex + 1));
+        const student = makePdfStudent(id, name, values, cleanLine);
+        if (student) return student;
+      }
+
+      return null;
+    }
+
+    function buildPdfImportedModel(text, fileName) {
+      const meta = detectPdfMeta(text, fileName);
+      const raw = stripBidiControls(text).replace(/\r/g, '\n');
+      const studentsMap = new Map();
+
+      raw.split(/\n+/).forEach(line => {
+        const student = parsePdfStudentLine(line);
+        if (student && !studentsMap.has(student.id)) studentsMap.set(student.id, student);
+      });
+
+      // احتياط إضافي للنص المستخرج كسطر واحد كما يظهر أحيانًا في PDF.js.
+      if (studentsMap.size === 0) {
+        const oneLine = compactPdfText(raw);
+        const idMatches = [...oneLine.matchAll(/\b\d{10}\b/g)];
+        idMatches.forEach((match, i) => {
+          const start = Math.max(0, match.index - 160);
+          const end = idMatches[i + 1] ? idMatches[i + 1].index + 160 : Math.min(oneLine.length, match.index + 260);
+          const chunk = oneLine.slice(start, end);
+          const student = parsePdfStudentLine(chunk);
+          if (student && !studentsMap.has(student.id)) studentsMap.set(student.id, student);
+        });
+      }
+
+      const students = [...studentsMap.values()].map((student, index) => ({ ...student, index, rawIndex: index }));
+      if (!students.length) return null;
+
+      const table = {
+        headerIndex: 0,
+        header: ['رقم الطالب', 'اسم الطالب', 'الفصل', 'مجموع الفصل الأول', 'المهام الأدائية والمشاركة والتفاعل', 'تقويمات تحريرية وتطبيقات عملية', 'مجموع الفصل الثاني', 'المجموع العام'],
+        maxRow: [],
+        nameCol: 1,
+        idCol: 0,
+        seqCol: 2,
+        toolsCol: 4,
+        taskCol: 4,
+        shortCol: -1,
+        periodTestCol: 5,
+        testCol: 5,
+        finalExamCol: -1,
+        totalCol: 6,
+        hasFinalStructure: false,
+        isPdfNoor: true,
+        maxTask: 40,
+        maxTest: 60,
+        maxShort: 0,
+        maxFinal: 0,
+        maxTotal: 100,
+        students
+      };
+      return { meta, table, rows: [], fileName };
+    }
+
+    function splitPdfItemTokens(item) {
+      const base = { x: item.x, y: item.y, page: item.page || 1 };
+      const text = cleanText(stripBidiControls(item.str));
+      if (!text) return [];
+      const parts = [];
+      let last = 0;
+      const re = /\d{10}/g;
+      let match;
+      while ((match = re.exec(text))) {
+        const before = text.slice(last, match.index).trim();
+        if (before) parts.push({ ...base, str: before, isIdPart: false });
+        parts.push({ ...base, str: match[0], isIdPart: true });
+        last = match.index + match[0].length;
+      }
+      const after = text.slice(last).trim();
+      if (after) parts.push({ ...base, str: after, isIdPart: false });
+      return parts.length ? parts : [{ ...base, str: text, isIdPart: false }];
+    }
+
+    function isBadPdfName(name) {
+      const n = cleanText(name);
+      if (!n || n.length < 2) return true;
+      if (/[�￾]/.test(n)) return true;
+      if (/about:blank|حاضر|المجموع|الفصل|الطالب|رقم/i.test(n)) return true;
+      return false;
+    }
+
+    function normalizePdfExtractedName(name, fallbackIndex) {
+      let n = cleanText(String(name || '').replace(/\d{10}/g, ''));
+      n = n.replace(/^[\-–—\s]+|[\-–—\s]+$/g, '');
+      return isBadPdfName(n) ? `طالب رقم ${toArabicNumber(fallbackIndex || '')}` : n;
+    }
+
+    function getPdfMaxesFromPayload(payload) {
+      const txt = String(payload?.text || '');
+      const hasFinal100 = /100\s*[\/.]|[\/.]\s*100|100\.00/.test(txt);
+      const has20 = /20\s*[\/.]|[\/.]\s*20/.test(txt);
+      const has60 = /60\s*[\/.]|[\/.]\s*60/.test(txt);
+      const has40 = /40\s*[\/.]|[\/.]\s*40/.test(txt);
+      if (has20 && has40 && !hasFinal100) return { task: 40, test: 20, total: 60, periodOnly: true };
+      if (has20 && has40 && /فترة\s*(?:أولى|اولى|ثانية|ثانيه)/.test(txt)) return { task: 40, test: 20, total: 60, periodOnly: true };
+      if (has40 && has60) return { task: 40, test: 60, total: 100, periodOnly: false };
+      return { task: 40, test: has20 ? 20 : 60, total: has20 ? 60 : 100, periodOnly: has20 };
+    }
+
+    function detectPdfMetaFromPayload(payload, fileName) {
+      const meta = detectPdfMeta(payload.text || '', fileName);
+      const txt = String(payload.text || '');
+      if (/20\s*[\/.]|[\/.]\s*20/.test(txt)) {
+        if (/فترة\s*(?:أولى|اولى)/.test(txt)) meta.period = 'الفترة الأولى';
+        else if (/فترة\s*(?:ثانية|ثانيه)/.test(txt)) meta.period = 'الفترة الثانية';
+      }
+      return meta;
+    }
+
+    function buildPdfImportedModelFromPayload(payload, fileName) {
+      if (!payload || !Array.isArray(payload.pages)) return null;
+      const meta = detectPdfMetaFromPayload(payload, fileName);
+      const maxes = getPdfMaxesFromPayload(payload);
+      const studentsMap = new Map();
+
+      payload.pages.forEach(page => {
+        const rawItems = (page.items || [])
+          .filter(item => cleanText(stripBidiControls(item.str)))
+          .map(item => ({ str: cleanText(stripBidiControls(item.str)), x: Number(item.x), y: Number(item.y), page: page.pageNo }));
+        const tokens = rawItems.flatMap(splitPdfItemTokens)
+          .filter(t => cleanText(t.str) && Number.isFinite(t.x) && Number.isFinite(t.y));
+        const idTokens = tokens.filter(t => isIdToken(t.str));
+
+        idTokens.forEach((idTok) => {
+          const id = normalizeDigits(idTok.str).padStart(10, '0');
+          if (studentsMap.has(id)) return;
+
+          const band = tokens.filter(t => Math.abs(t.y - idTok.y) <= 9.5 && !/about:blank/i.test(t.str));
+          const numeric = band
+            .filter(t => !isIdToken(t.str))
+            .map(t => ({ ...t, value: numericTokenValue(t.str) }))
+            .filter(t => t.value !== null && Number.isFinite(t.value));
+
+          let nums = numeric.filter(t => t.x < idTok.x - 8).sort((a, b) => a.x - b.x);
+          if (nums.length < 4) nums = numeric.sort((a, b) => a.x - b.x);
+
+          let classNo = 1, firstTotal = 0, task = 0, test = 0, total = 0, generalTotal = 0;
+          if (nums.length >= 6) {
+            const vals = nums.slice(-6).map(n => n.value);
+            generalTotal = vals[0];
+            total = vals[1];
+            test = vals[2];
+            task = vals[3];
+            firstTotal = vals[4];
+            classNo = vals[5];
+          } else if (nums.length >= 4) {
+            const vals = nums.slice(-4).map(n => n.value);
+            total = vals[0];
+            task = vals[1];
+            test = vals[2];
+            classNo = vals[3];
+            firstTotal = 0;
+            generalTotal = total;
+          } else {
+            return;
+          }
+
+          if (!(classNo >= 0 && classNo <= 20)) return;
+          if (task < 0 || test < 0 || total < 0) return;
+          if (task > Math.max(45, maxes.task + 5) || test > Math.max(70, maxes.test + 10) || total > Math.max(110, maxes.total + 10)) return;
+
+          const nameTokens = band
+            .filter(t => !isIdToken(t.str))
+            .filter(t => numericTokenValue(t.str) === null)
+            .filter(t => !/حاضر|غائب|مجموع|الفصل|الطالب|رقم|تقويم|المهام|المشاركة|التفاعل|تحريرية|تطبيقات/i.test(t.str))
+            .filter(t => {
+              const leftLimit = nums.length ? nums[nums.length - 1].x + 5 : 0;
+              return t.x > leftLimit && t.x < idTok.x + 35;
+            })
+            .sort((a, b) => b.x - a.x)
+            .map(t => t.str.replace(/\d{10}/g, '').trim())
+            .filter(Boolean);
+
+          let name = tokensToName(nameTokens);
+          name = normalizePdfExtractedName(name, studentsMap.size + 1);
+
+          studentsMap.set(id, {
+            index: 0,
+            rawIndex: 0,
+            seq: classNo,
+            id,
+            name,
+            firstTotal,
+            task,
+            test,
+            tools: task,
+            shortTest: maxes.periodOnly ? test : 0,
+            periodTest: test,
+            finalExam: maxes.periodOnly ? 0 : test,
+            total,
+            generalTotal,
+            raw: [id, name, classNo, firstTotal, task, test, total, generalTotal]
+          });
+        });
+      });
+
+      const students = [...studentsMap.values()].map((student, index) => ({
+        ...student,
+        index,
+        rawIndex: index,
+        name: normalizePdfExtractedName(student.name, index + 1)
+      }));
+      if (!students.length) return null;
+
+      const periodOnly = maxes.periodOnly || maxes.total <= 60;
+      const table = {
+        headerIndex: 0,
+        header: periodOnly
+          ? ['رقم الطالب', 'اسم الطالب', 'الفصل', 'تقويمات تحريرية', 'المهام الأدائية والمشاركة والتفاعل', 'المجموع']
+          : ['رقم الطالب', 'اسم الطالب', 'الفصل', 'مجموع الفصل الأول', 'المهام الأدائية والمشاركة والتفاعل', 'تقويمات تحريرية وتطبيقات عملية', 'مجموع الفصل الثاني', 'المجموع العام'],
+        maxRow: [],
+        nameCol: 1,
+        idCol: 0,
+        seqCol: 2,
+        toolsCol: 4,
+        taskCol: 4,
+        shortCol: periodOnly ? 3 : -1,
+        periodTestCol: periodOnly ? 3 : 5,
+        testCol: periodOnly ? 3 : 5,
+        finalExamCol: -1,
+        totalCol: periodOnly ? 5 : 6,
+        hasFinalStructure: false,
+        isPdfNoor: true,
+        maxTask: maxes.task,
+        maxTest: maxes.test,
+        maxShort: periodOnly ? maxes.test : 0,
+        maxFinal: 0,
+        maxTotal: maxes.total,
+        students
+      };
+      return { meta, table, rows: [], fileName };
+    }
+
+    async function extractPdfPayloadFromFile(file) {
+      if (!window.pdfjsLib) throw new Error('PDF.js غير متاح');
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const buffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+      const pages = [];
+      const textParts = [];
+
+      for (let pageNo = 1; pageNo <= pdf.numPages; pageNo++) {
+        const page = await pdf.getPage(pageNo);
+        const content = await page.getTextContent({ normalizeWhitespace: true, disableCombineTextItems: false });
+        const items = content.items
+          .filter(item => cleanText(stripBidiControls(item.str)))
+          .map(item => ({
+            str: cleanText(stripBidiControls(item.str)),
+            x: item.transform[4],
+            y: Math.round(item.transform[5] * 10) / 10
+          }));
+
+        const lines = [];
+        items.forEach(item => {
+          let line = lines.find(l => Math.abs(l.y - item.y) <= 3);
+          if (!line) { line = { y: item.y, items: [] }; lines.push(line); }
+          line.items.push(item);
+        });
+        lines.sort((a, b) => b.y - a.y);
+
+        const ascText = lines.map(line => line.items.slice().sort((a, b) => a.x - b.x).map(i => i.str).join(' ')).join('\n');
+        const descText = lines.map(line => line.items.slice().sort((a, b) => b.x - a.x).map(i => i.str).join(' ')).join('\n');
+        const streamText = items.map(i => i.str).join(' ');
+        textParts.push(ascText, descText, streamText);
+        pages.push({ pageNo, items });
+      }
+      return { text: textParts.join('\n'), pages };
+    }
+
+    async function processPdfFileToDashboard(file) {
+      try {
+        showToast('جاري قراءة ملف PDF...');
+        const payload = await extractPdfPayloadFromFile(file);
+        let model = buildPdfImportedModelFromPayload(payload, file.name);
+        if (!model) model = buildPdfImportedModel(payload.text, file.name);
+        finishImportedModel(model, 'تم استيراد ملف PDF وقراءة درجات نور بنجاح');
+      } catch (err) {
+        console.error(err);
+        document.getElementById('importedSection').classList.add('show');
+        document.getElementById('importedMeta').textContent = 'تعذر قراءة ملف PDF. تأكد أن الملف نصي صادر من نور وليس صورة ممسوحة ضوئيًا.';
+        document.getElementById('importedTable').innerHTML = '';
+        showToast('تعذر قراءة ملف PDF');
+      } finally {
+        const input = document.getElementById('pdfInput');
+        if (input) input.value = '';
+      }
+    }
+
+    function loadStudentToDashboard(idx) {
+      const model = window.currentImportedModel;
+      if (!model) return;
+      const student = model.table.students[idx];
+      if (!student) return;
+
+      window.selectedStudentIndex = idx;
+      applyMeta(model.meta);
+      renderGradesSummaryTable(model, student);
+      document.querySelector('.title-block .subtitle').textContent =
+        `التقرير الفردي للطالب: ${student.name} — ${model.meta.school}`;
+      showToast(`تم عرض التقرير الفردي: ${student.name}`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function resetDefaultGradeTable() {
+      window.currentImportedModel = null;
+      window.selectedStudentIndex = null;
+      window.currentMaxTask = DEFAULT_MAX.task;
+      window.currentMaxTest = DEFAULT_MAX.test;
+      window.currentMaxTotal = DEFAULT_MAX.total;
+      gradesTable.querySelector('tbody').innerHTML = `
+        <tr data-row="period"><td class="period-cell" contenteditable="true">الفترة الأولى</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+        <tr data-row="period"><td class="period-cell" contenteditable="true">الفترة الثانية</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+        <tr data-row="period"><td class="period-cell" contenteditable="true">معدل الفترتين</td><td class="task-cell" contenteditable="true" inputmode="decimal">٤٠</td><td class="test-cell" contenteditable="true" inputmode="decimal">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+        <tr class="final-row" data-row="final"><td class="period-cell" contenteditable="true">مجموع الفصل الثاني</td><td class="task-cell">٤٠</td><td class="test-cell">٦٠</td><td class="sum-cell">١٠٠</td></tr>
+      `;
+      document.querySelector('.title-block h1').textContent = 'جدول توزيع درجات الفترات – المهارات الرقمية';
+      document.querySelector('.title-block .subtitle').textContent = 'نموذج رسمي لتجهيز درجات الصف الرابع الابتدائي';
+      setText('subjectName', 'المهارات الرقمية');
+      setText('footerSubject', 'المهارات الرقمية');
+      setText('schoolName', 'اسم المدرسة');
+      setText('className', 'الرابع الابتدائي');
+      setText('termName', 'الثاني');
+      setText('yearName', '١٤٤٧هـ');
+      setText('analysisTypeValue', '١');
+      calculateRows();
+    }
+
+    document.getElementById('analysisMode').addEventListener('change', () => {
+      const model = window.currentImportedModel;
+      if (!model) return;
+      applyMeta(model.meta);
+      if (window.selectedStudentIndex !== null) loadStudentToDashboard(window.selectedStudentIndex);
+      else renderGradesSummaryTable(model);
+      renderImportedTable(model);
+      showToast(`تم التحويل إلى ${getAnalysisLabel()}`);
+    });
+
+    document.getElementById('excelInput').addEventListener('change', e => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const wb = XLSX.read(new Uint8Array(ev.target.result), { type: 'array' });
+          const firstSheet = wb.SheetNames[0];
+          const rows = XLSX.utils.sheet_to_json(wb.Sheets[firstSheet], { header: 1, defval: '' });
+          processExcelDataToDashboard(rows, file.name);
+        } catch (err) {
+          console.error(err);
+          showToast('تعذر قراءة ملف Excel');
+        } finally {
+          document.getElementById('excelInput').value = '';
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    });
+
+    document.getElementById('pdfInput').addEventListener('change', e => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      processPdfFileToDashboard(file);
+    });
+
+    document.getElementById('clearImportedBtn').addEventListener('click', () => {
+      document.getElementById('importedTable').innerHTML = '';
+      document.getElementById('importedMeta').innerHTML = '';
+      document.getElementById('importedSection').classList.remove('show');
+      resetDefaultGradeTable();
+      showToast('تم مسح البيانات المستوردة');
+    });
+
+    document.getElementById('printBtn').addEventListener('click', () => { calculateRows(); window.print(); });
+    document.getElementById('pdfBtn').addEventListener('click', () => { calculateRows(); window.print(); });
+
+    // ─── CHARTS LOGIC ───
+    let barChartInst = null;
+    const CIRCUM_52 = 2 * Math.PI * 52;
+    const CIRCUM_36 = 2 * Math.PI * 36;
+    const CIRCUM_28 = 2 * Math.PI * 28;
+
+    function getPeriodData() {
+      return [...document.querySelectorAll('#gradesTable tbody tr[data-row="period"]')].map(r => {
+        const task = readNumber(r.querySelector('.task-cell'));
+        const test = readNumber(r.querySelector('.test-cell'));
+        return { label: r.querySelector('.period-cell').textContent.trim(), task, test, total: task + test };
+      });
+    }
+
+    function updateCreativeDashboard() {
+      const data = getPeriodData();
+      const avgTotal = average(data.map(d => d.total));
+      const avgTask = average(data.map(d => d.task));
+      const avgTest = average(data.map(d => d.test));
+      const maxTotal = window.currentMaxTotal || DEFAULT_MAX.total;
+      const pct = maxTotal ? Math.min(100, Math.max(0, (avgTotal / maxTotal) * 100)) : 0;
+
+      document.getElementById('donutFill').style.strokeDashoffset = CIRCUM_52 - (pct / 100) * CIRCUM_52;
+      document.getElementById('donutFill2').style.strokeDashoffset = CIRCUM_36 - ((avgTotal > 0 ? avgTask / avgTotal : 0.4) * CIRCUM_36);
+      document.getElementById('ringPct').textContent = formatGrade(pct) + '٪';
+
+      if (barChartInst) barChartInst.destroy();
+      const yMax = Math.max(window.currentMaxTask || 40, window.currentMaxTest || 60, 10);
+      barChartInst = new Chart(document.getElementById('barChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: data.map(d => d.label),
+          datasets: [
+            { label: 'المهام', data: data.map(d => d.task), backgroundColor: '#059669', borderRadius: 6 },
+            { label: 'الاختبارات', data: data.map(d => d.test), backgroundColor: '#d97706', borderRadius: 6 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { grid: { display: false }, border: { display: false }, ticks: { font: { family: 'Tajawal', size: 11 } } },
+            y: { suggestedMax: yMax, grid: { color: '#f1f5f9' }, border: { display: false }, ticks: { callback: value => toArabicNumber(value) } }
+          }
+        }
+      });
+
+      const totalSum = avgTask + avgTest || 100;
+      const taskFlex = (avgTask / totalSum) * 100;
+      const testFlex = (avgTest / totalSum) * 100;
+      document.getElementById('splitTask').style.flex = taskFlex;
+      document.getElementById('splitTask').textContent = formatGrade(taskFlex) + '٪';
+      document.getElementById('splitTest').style.flex = testFlex;
+      document.getElementById('splitTest').textContent = formatGrade(testFlex) + '٪';
+      document.getElementById('splitPctText').textContent = formatGrade(taskFlex) + '٪';
+      document.getElementById('splitDonut').style.strokeDashoffset = CIRCUM_28 - (taskFlex / 100) * CIRCUM_28;
+
+      const angle = (pct / 100) * 180 - 90;
+      document.getElementById('gaugeNeedle').style.transform = `rotate(${angle}deg)`;
+      let gLabel = 'ممتاز', gColor = '#065f46';
+      if (pct < 60) { gLabel = 'ضعيف'; gColor = '#dc2626'; }
+      else if (pct < 75) { gLabel = 'مقبول'; gColor = '#d97706'; }
+      else if (pct < 90) { gLabel = 'جيد جداً'; gColor = '#059669'; }
+      const gEl = document.getElementById('gaugeLabel');
+      gEl.textContent = gLabel;
+      gEl.style.color = gColor;
+      document.getElementById('gaugeScore').textContent = `المتوسط الكلي: ${formatGrade(avgTotal)} / ${formatGrade(maxTotal)}`;
+    }
+
+    calculateRows();
+  </script>
+
+</body>
+</html>
