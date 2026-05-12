@@ -1765,14 +1765,112 @@
       return { text: textParts.join('\n'), pages };
     }
 
+    function isFinalNoorPdfPayload(payload) {
+      const txt = compactPdfText(payload?.text || '');
+      return /مجموع\s+الفصل\s+(?:الأول|الاول|الثاني)/.test(txt) || /المجموع\s+العام/.test(txt);
+    }
+
+    function isPeriodNoorPdfPayload(payload) {
+      const txt = compactPdfText(payload?.text || '');
+      return /رقم\s+الهوية/.test(txt) || /تقويمات\s+تحريرية\s*\/?\s*(?:20|60)/.test(txt) || /فترة\s*(?:أولى|اولى|ثانية|ثانيه)/.test(txt);
+    }
+
+    function validatePdfModel(model) {
+      if (!model || !model.table || !Array.isArray(model.table.students) || !model.table.students.length) return false;
+      return model.table.students.every(s => {
+        const task = Number(s.task), test = Number(s.test), total = Number(s.total);
+        if (!Number.isFinite(task) || !Number.isFinite(test) || !Number.isFinite(total)) return false;
+        if (task < 0 || test < 0 || total < 0) return false;
+        if (task > 45 || test > 70 || total > 110) return false;
+        return true;
+      });
+    }
+
+    function sanitizePdfModel(model) {
+      if (!model || !model.table || !Array.isArray(model.table.students)) return null;
+      const maxTask = Number(model.table.maxTask || 40);
+      const maxTest = Number(model.table.maxTest || 60);
+      const maxTotal = Number(model.table.maxTotal || (maxTask + maxTest) || 100);
+      const cleanStudents = model.table.students.filter(s => {
+        const task = Number(s.task), test = Number(s.test), total = Number(s.total);
+        if (!Number.isFinite(task) || !Number.isFinite(test) || !Number.isFinite(total)) return false;
+        if (task < 0 || test < 0 || total < 0) return false;
+        if (task > Math.max(45, maxTask + 5)) return false;
+        if (test > Math.max(70, maxTest + 10)) return false;
+        if (total > Math.max(110, maxTotal + 10)) return false;
+        return true;
+      }).map((s, i) => ({ ...s, index: i, rawIndex: i }));
+      if (!cleanStudents.length) return null;
+      return { ...model, table: { ...model.table, students: cleanStudents } };
+    }
+
+    function scorePdfModel(model, payload) {
+      const m = sanitizePdfModel(model);
+      if (!m) return { score: -1, model: null, reason: 'لا توجد صفوف صالحة' };
+      const students = m.table.students;
+      const maxTask = Number(m.table.maxTask || 40);
+      const maxTest = Number(m.table.maxTest || 60);
+      const maxTotal = Number(m.table.maxTotal || maxTask + maxTest || 100);
+      let score = students.length * 100;
+
+      let consistent = 0;
+      let named = 0;
+      let hasIds = 0;
+      students.forEach(s => {
+        const task = Number(s.task), test = Number(s.test), total = Number(s.total);
+        if (Math.abs((task + test) - total) <= 1.25) consistent += 1;
+        if (s.name && !/^طالب رقم/.test(String(s.name))) named += 1;
+        if (/^\d{10}$/.test(String(s.id || ''))) hasIds += 1;
+      });
+      score += consistent * 35 + named * 12 + hasIds * 8;
+
+      // مكافأة عند توافق نوع الكشف مع الحدود القصوى الموجودة في الملف.
+      const txt = String(payload?.text || '');
+      if (/20\s*[\/.]|[\/.]\s*20/.test(txt) && maxTotal <= 60) score += 80;
+      if (/مجموع\s+الفصل|المجموع\s+العام/.test(txt) && maxTotal >= 100) score += 80;
+      if (/رقم\s+الهوية/.test(txt) && students.length && m.table.header.join(' ').includes('رقم الهوية')) score += 60;
+
+      // عقوبة إذا كان مجموع الطالب لا يساوي بنود الدرجات؛ هذا يمنع خلط نهاية الفصل مع آخر 3 أرقام فقط.
+      const badConsistency = students.length - consistent;
+      score -= badConsistency * 45;
+
+      return { score, model: m, reason: `طلاب: ${students.length}، اتساق: ${consistent}` };
+    }
+
+    function chooseBestPdfModel(payload, fileName) {
+      const candidates = [];
+      const add = (name, fn) => {
+        try {
+          const model = fn();
+          const ranked = scorePdfModel(model, payload);
+          if (ranked.model) candidates.push({ name, ...ranked });
+        } catch (e) {
+          console.warn('PDF parser failed:', name, e);
+        }
+      };
+
+      // لا نلغي أي قارئ بسبب نوع الملف. كل قارئ يجرب، ثم نختار الأعلى جودة.
+      // هذا يمنع أن إصلاح نمط واحد يكسر نمطًا آخر.
+      add('قارئ نهاية الفصل النصي', () => buildPdfImportedModel(payload.text, fileName));
+      add('قارئ الإحداثيات العام', () => buildPdfImportedModelFromPayload(payload, fileName));
+      add('قارئ الفترة/الثانوي المرن', () => buildFlexibleNoorPdfModel(payload, fileName));
+
+      candidates.sort((a, b) => b.score - a.score);
+      console.table(candidates.map(c => ({ parser: c.name, score: c.score, reason: c.reason })));
+      return candidates[0] || null;
+    }
+
     async function processPdfFileToDashboard(file) {
       try {
         showToast('جاري قراءة ملف PDF...');
         const payload = await extractPdfPayloadFromFile(file);
-        let model = buildFlexibleNoorPdfModel(payload, file.name);
-        if (!model) model = buildPdfImportedModelFromPayload(payload, file.name);
-        if (!model) model = buildPdfImportedModel(payload.text, file.name);
-        finishImportedModel(model, 'تم استيراد ملف PDF وقراءة درجات نور بنجاح');
+        const best = chooseBestPdfModel(payload, file.name);
+        if (!best || !best.model) {
+          throw new Error('لم يتم العثور على صفوف طلاب ودرجات صالحة داخل PDF. افتح Console لمراجعة النص المستخرج إن لزم.');
+        }
+        best.model.meta = best.model.meta || detectPdfMetaFromPayload(payload, file.name);
+        best.model.meta.parserUsed = best.name;
+        finishImportedModel(best.model, `تم استيراد ملف PDF بنجاح — ${best.name}`);
       } catch (err) {
         console.error(err);
         document.getElementById('importedSection').classList.add('show');
